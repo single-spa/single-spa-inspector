@@ -6,15 +6,14 @@ function PanelRoot(props) {
   const [apps, setApps] = useState();
   useEffect(() => {
     async function getApps() {
-      try {
-        const results = await evalDevtoolsCmd(`getAppData()`);
-        setApps(results);
-      } catch (err) {
-        throw err;
-      }
+      const results = await evalDevtoolsCmd(`getAppData()`);
+      setApps(results);
     }
 
-    getApps();
+    getApps().catch(err => {
+      console.error("error in panel-app.js -> getApps()");
+      throw err;
+    });
   }, []);
 
   if (!apps) return <div>Loading...</div>;
