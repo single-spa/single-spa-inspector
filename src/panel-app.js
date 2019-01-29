@@ -1,28 +1,30 @@
-import browser from "webextension-polyfill";
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import { evalDevtoolsCmd } from "./inspected-window.helper";
 
 function PanelRoot(props) {
   const [apps, setApps] = useState();
   useEffect(() => {
     async function getApps() {
       try {
-        const inspectedApps = await browser.devtools.inspectedWindow.eval(
-          `document.querySelector('div')`
-        );
-        setApps(inspectedApps);
+        const results = await evalDevtoolsCmd(`getAppData()`);
+        setApps(results);
       } catch (err) {
-        console.error(`Wrong in useEffect`);
         throw err;
       }
     }
 
     getApps();
   }, []);
+
+  if (!apps) return <div>Loading...</div>;
   return (
     <div>
-      {apps ? <span>{apps.toString()}</span> : <span>Loading apps...</span>}
-      React is working!
+      {apps.map(app => (
+        <div key={app.name}>
+          {app.name} : {app.status}
+        </div>
+      ))}
     </div>
   );
 }
