@@ -2,7 +2,7 @@
 export function installDevtools() {
   if (window.__SINGLE_SPA_DEVTOOLS__) return;
 
-  Object.defineProperty(window, "__SINGLE_SPA_DEVTOOLS__", {
+  Object.defineProperty(window, "__SINGLE_SPA_DEVTOOLS_ACTIVE__", {
     value: true
   });
 }

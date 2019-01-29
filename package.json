@@ -5,7 +5,7 @@
   "main": "borderify.js",
   "scripts": {
     "lint": "web-ext lint",
-    "start": "concurrently -k --names \"EXT,WPK\" -c \"cyan,magenta\" \"npm:start:firefox\" \"webpack --watch\"",
+    "start": "concurrently --kill-others-on-fail --names \"EXT,WPK\" -c \"cyan,magenta\" \"npm:start:firefox\" \"webpack --watch\"",
     "start:firefox": "web-ext run --keep-profile-changes --firefox-profile=single-spa-inspector-dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
