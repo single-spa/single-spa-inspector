@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { evalDevtoolsCmd } from "./inspected-window.helper";
 import browser from "webextension-polyfill";
+import Apps from "./panel-app/apps.component";
 
 function PanelRoot(props) {
   const [apps, setApps] = useState();
@@ -28,15 +29,8 @@ function PanelRoot(props) {
   }, []);
 
   if (!apps) return <div>Loading...</div>;
-  return (
-    <div>
-      {apps.map(app => (
-        <div key={app.name}>
-          {app.name} : {app.status}
-        </div>
-      ))}
-    </div>
-  );
+
+  return <Apps apps={apps} theme={props.theme} />;
 }
 
 async function getApps(setAppsFn) {
