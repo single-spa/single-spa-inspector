@@ -1,27 +1,31 @@
 import browser from "webextension-polyfill";
 
+createPanel().catch(err => {
+  console.error("Something happened in createPanel()");
+  throw err;
+});
+
 async function createPanel() {
-  try {
-    const panel = await browser.devtools.panels.create(
-      "single-spa Inspector",
-      "/src/logo-white-bgblue.svg",
-      "/src/panel.html"
-    );
+  let portToBackground;
 
-    panel.onShown.addListener(initPanel);
-    panel.onHidden.addListener(uninitPanel);
-  } catch (err) {
-    console.error(`panels.create error`);
-    throw err;
-  }
+  const panel = await browser.devtools.panels.create(
+    "single-spa Inspector",
+    "/src/logo-white-bgblue.svg",
+    "/src/panel.html"
+  );
+
+  panel.onShown.addListener(panelWindow => {
+    portToBackground = browser.runtime.connect({ name: "panel-devtools" });
+    portToBackground.onMessage.addListener(msg => {
+      const custEvent = new CustomEvent("ext-content-script", {
+        detail: msg
+      });
+      panelWindow.dispatchEvent(custEvent);
+    });
+  });
+
+  panel.onHidden.addListener(() => {
+    portToBackground.disconnect();
+    portToBackground = null;
+  });
 }
-
-function initPanel() {
-  console.log("init");
-}
-
-function uninitPanel() {
-  console.log("bye");
-}
-
-createPanel();
