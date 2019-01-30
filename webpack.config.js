@@ -5,6 +5,7 @@ module.exports = {
   mode: "development",
   entry: {
     contentScript: "./src/content_script.js",
+    backgroundScript: "./src/background_script.js",
     panel: "./src/panel.js",
     panelApp: "./src/panel-app.js"
   },

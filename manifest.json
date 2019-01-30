@@ -14,5 +14,8 @@
       "run_at": "document_start",
       "js": ["./build/contentScript.js"]
     }
-  ]
+  ],
+  "background": {
+    "scripts": ["./build/backgroundScript.js"]
+  }
 }
