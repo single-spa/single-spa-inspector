@@ -1,12 +1,13 @@
 {
   "manifest_version": 2,
   "name": "single-spa Inspector",
-  "version": "0.1.0",
+  "version": "0.1.1a5",
   "description": "A devtools panel for single-spa applications",
   "icons": {
-    "48": "icons/border-48.png"
+    "48": "logo-white-bgblue.svg",
+    "96": "logo-white-bgblue.svg"
   },
-  "devtools_page": "./src/main.html",
+  "devtools_page": "./build/main.html",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "content_scripts": [
     {

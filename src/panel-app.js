@@ -28,7 +28,14 @@ function PanelRoot(props) {
     });
   }, []);
 
-  if (!apps) return <div>Loading...</div>;
+  if (!apps)
+    return (
+      <div>
+        Loading... if you see this message for a long time, either single-spa is
+        not on the page or you are not running a version of single-spa that
+        supports developer tools
+      </div>
+    );
 
   return <Apps apps={apps} theme={props.theme} />;
 }
