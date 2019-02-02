@@ -1,20 +1,9 @@
 import React from "react";
 import { Scoped, always, maybe } from "kremling";
+import AppStatusOverride from "./app-status-override.component";
 
 export default function Apps(props) {
-  const sortedApps = [...props.apps].sort((a, b) => {
-    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
-    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-
-    // names must be equal
-    return 0;
-  });
+  const sortedApps = sortApps(props.apps);
 
   return (
     <Scoped css={css}>
@@ -23,6 +12,7 @@ export default function Apps(props) {
           <tr>
             <th>Name</th>
             <th>Status</th>
+            <th>Status Overrides</th>
           </tr>
         </thead>
         <tbody>
@@ -36,12 +26,31 @@ export default function Apps(props) {
               >
                 {app.status.replace("_", " ").toLowerCase()}
               </td>
+              <td>
+                <AppStatusOverride app={app} />
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </Scoped>
   );
+}
+
+function sortApps(apps) {
+  return [...apps].sort((a, b) => {
+    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
 }
 
 const css = `
