@@ -6,7 +6,6 @@ export default function AppStatusOverride(props) {
 
   useEffect(() => {
     if (state.running) {
-      console.log(`${typeToCommand[state.runType]}("${props.app.name}")`);
       evalDevtoolsCmd(
         `${typeToCommand[state.runType]}("${props.app.name}")`
       ).catch(err => {
@@ -17,9 +16,6 @@ export default function AppStatusOverride(props) {
   }, [state]);
 
   const activeOverrideType = props.app.__activeWhenOverride__;
-  if (props.app.name === "contact-menu") {
-    console.log(activeOverrideType, "type");
-  }
   return (
     <>
       {(activeOverrideType === "off" || props.app.status !== "MOUNTED") && (
