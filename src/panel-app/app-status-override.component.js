@@ -15,18 +15,18 @@ export default function AppStatusOverride(props) {
     }
   }, [state]);
 
-  const activeOverrideType = props.app.__activeWhenOverride__;
+  const activeWhenForced = props.app.devtools.activeWhenForced;
   return (
     <>
-      {(activeOverrideType === "off" || props.app.status !== "MOUNTED") && (
+      {(activeWhenForced === "off" || props.app.status !== "MOUNTED") && (
         <button onClick={() => dispatch({ type: "on" })}>Force Mount</button>
       )}
-      {(activeOverrideType === "on" || props.app.status === "MOUNTED") && (
+      {(activeWhenForced === "on" || props.app.status === "MOUNTED") && (
         <button onClick={() => dispatch({ type: "off" })}>Force Unmount</button>
       )}
       <button
         onClick={() => dispatch({ type: "reset" })}
-        disabled={!activeOverrideType}
+        disabled={!activeWhenForced}
       >
         Reset
       </button>
