@@ -19,10 +19,10 @@ export default function AppStatusOverride(props) {
   return (
     <>
       {(activeWhenForced === "off" || props.app.status !== "MOUNTED") && (
-        <button onClick={() => dispatch({ type: "on" })}>Force Mount</button>
+        <button onClick={() => dispatch({ type: "on" })}>Mount</button>
       )}
       {(activeWhenForced === "on" || props.app.status === "MOUNTED") && (
-        <button onClick={() => dispatch({ type: "off" })}>Force Unmount</button>
+        <button onClick={() => dispatch({ type: "off" })}>Unmount</button>
       )}
       <button
         onClick={() => dispatch({ type: "reset" })}
