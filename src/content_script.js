@@ -6,9 +6,9 @@ script.textContent = `(${installDevtools.toString()})()`;
 (document.head || document.documentElement).appendChild(script);
 script.remove();
 
-window.addEventListener("single-spa:app-change", () => {
+window.addEventListener("single-spa:routing-event", () => {
   browser.runtime.sendMessage({
     from: "single-spa",
-    type: "app-change"
+    type: "routing-event"
   });
 });

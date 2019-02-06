@@ -8,24 +8,19 @@ function PanelRoot(props) {
   const [apps, setApps] = useState();
 
   useEffect(() => {
-    window.addEventListener("ext-content-script", msg => {
-      if (
-        msg.detail.from === "single-spa" &&
-        msg.detail.type === "app-change"
-      ) {
-        getApps(setApps).catch(err => {
-          console.error("error in getting apps after update event");
-          throw err;
-        });
-      }
-    });
-  }, []);
-
-  useEffect(() => {
     getApps(setApps).catch(err => {
       console.error("error in getting apps on mount");
       throw err;
     });
+  }, []);
+
+  useEffect(() => {
+    const boundEvtListener = contentScriptListener.bind(null, setApps);
+    window.addEventListener("ext-content-script", boundEvtListener);
+
+    return () => {
+      window.removeEventListener("ext-content-script", boundEvtListener);
+    };
   }, []);
 
   if (!apps)
@@ -43,6 +38,15 @@ function PanelRoot(props) {
 async function getApps(setAppsFn) {
   const results = await evalDevtoolsCmd(`getAppData()`);
   setAppsFn(results);
+}
+
+function contentScriptListener(setApps, msg) {
+  if (msg.detail.from === "single-spa" && msg.detail.type === "routing-event") {
+    getApps(setApps).catch(err => {
+      console.error("error in getting apps after update event");
+      throw err;
+    });
+  }
 }
 
 //themeName may or may not work in chrome. yet to test it to see whether it does or not

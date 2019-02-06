@@ -11,7 +11,7 @@ async function createPanel() {
   const panel = await browser.devtools.panels.create(
     "single-spa Inspector",
     "/logo-white-bgblue.svg",
-    "./panel.html"
+    "/build/panel.html"
   );
 
   panel.onShown.addListener(panelWindow => {
