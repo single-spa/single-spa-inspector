@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Scoped, always, maybe } from "kremling";
 import AppStatusOverride from "./app-status-override.component";
 import { evalDevtoolsCmd, evalCmd } from "../inspected-window.helper.js";
 
 export default function Apps(props) {
   const sortedApps = sortApps(props.apps);
+
+  const [hovered, setHovered] = useState();
+
+  useEffect(() => {
+    if (hovered) {
+      highlightApp(hovered);
+      return () => dehighlightApp(hovered);
+    }
+  }, [hovered]);
 
   return (
     <Scoped css={css}>
@@ -20,8 +29,8 @@ export default function Apps(props) {
           {sortedApps.map(app => (
             <tr
               key={app.name}
-              onMouseEnter={() => highlightApp(app)}
-              onMouseLeave={() => dehighlightApp(app)}
+              onMouseEnter={() => setHovered(app)}
+              onMouseLeave={() => setHovered()}
             >
               <td>{app.name}</td>
               <td
@@ -40,20 +49,6 @@ export default function Apps(props) {
       </table>
     </Scoped>
   );
-}
-
-function highlightApp(app) {
-  if (app.status !== "SKIP_BECAUSE_BROKEN" && app.status !== "NOT_LOADED") {
-    evalDevtoolsCmd(`highlight('${app.name}')`).catch(err => {
-      console.warn("err", err);
-    });
-  }
-}
-
-function dehighlightApp(app) {
-  evalDevtoolsCmd(`removeHighlight('${app.name}')`).catch(err => {
-    console.error("dehighlightApp err", err);
-  });
 }
 
 function sortApps(apps) {
@@ -84,6 +79,20 @@ function sortApps(apps) {
         return 0;
       }
     });
+}
+
+function highlightApp(app) {
+  if (app.status !== "SKIP_BECAUSE_BROKEN" && app.status !== "NOT_LOADED") {
+    evalDevtoolsCmd(`highlight('${app.name}')`).catch(err => {
+      console.warn("err", err);
+    });
+  }
+}
+
+function dehighlightApp(app) {
+  evalDevtoolsCmd(`removeHighlight('${app.name}')`).catch(err => {
+    console.error("dehighlightApp err", err);
+  });
 }
 
 const css = `
