@@ -52,9 +52,6 @@ export default function Apps(props) {
 }
 
 function sortApps(apps) {
-  const statusNumMap = {
-    MOUNTED: 2
-  };
   return [...apps]
     .sort((a, b) => {
       const nameA = a.name.toUpperCase(); // ignore upper and lowercase
@@ -69,8 +66,8 @@ function sortApps(apps) {
       return 0;
     })
     .sort((a, b) => {
-      const statusA = statusNumMap[a.status] || 0;
-      const statusB = statusNumMap[b.status] || 0;
+      const statusA = a.status === "MOUNTED" ? 1 : 0;
+      const statusB = b.status === "MOUNTED" ? 1 : 0;
       if (statusA > statusB) {
         return -1;
       } else if (statusA < statusB) {
