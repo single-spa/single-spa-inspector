@@ -1,6 +1,7 @@
 import React from "react";
 import { Scoped, always, maybe } from "kremling";
 import AppStatusOverride from "./app-status-override.component";
+import { evalDevtoolsCmd, evalCmd } from "../inspected-window.helper.js";
 
 export default function Apps(props) {
   const sortedApps = sortApps(props.apps);
@@ -17,7 +18,11 @@ export default function Apps(props) {
         </thead>
         <tbody>
           {sortedApps.map(app => (
-            <tr key={app.name}>
+            <tr
+              key={app.name}
+              onMouseEnter={() => highlightApp(app)}
+              onMouseLeave={() => dehighlightApp(app)}
+            >
               <td>{app.name}</td>
               <td
                 className={always("app-status")
@@ -37,20 +42,48 @@ export default function Apps(props) {
   );
 }
 
-function sortApps(apps) {
-  return [...apps].sort((a, b) => {
-    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
-    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
+function highlightApp(app) {
+  if (app.status !== "SKIP_BECAUSE_BROKEN" && app.status !== "NOT_LOADED") {
+    evalDevtoolsCmd(`highlight('${app.name}')`).catch(err => {
+      console.warn("err", err);
+    });
+  }
+}
 
-    // names must be equal
-    return 0;
+function dehighlightApp(app) {
+  evalDevtoolsCmd(`removeHighlight('${app.name}')`).catch(err => {
+    console.error("dehighlightApp err", err);
   });
+}
+
+function sortApps(apps) {
+  const statusNumMap = {
+    MOUNTED: 2
+  };
+  return [...apps]
+    .sort((a, b) => {
+      const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+      const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      // names must be equal
+      return 0;
+    })
+    .sort((a, b) => {
+      const statusA = statusNumMap[a.status] || 0;
+      const statusB = statusNumMap[b.status] || 0;
+      if (statusA > statusB) {
+        return -1;
+      } else if (statusA < statusB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
 }
 
 const css = `
