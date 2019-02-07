@@ -84,14 +84,14 @@ function sortApps(apps) {
 function highlightApp(app) {
   if (app.status !== "SKIP_BECAUSE_BROKEN" && app.status !== "NOT_LOADED") {
     evalDevtoolsCmd(`highlight('${app.name}')`).catch(err => {
-      console.warn("err", err);
+      console.error(`Error highlighting applicaton: ${app.name}`, err);
     });
   }
 }
 
 function dehighlightApp(app) {
   evalDevtoolsCmd(`removeHighlight('${app.name}')`).catch(err => {
-    console.error("dehighlightApp err", err);
+    console.error(`Error De-highlighting applicaton: ${app.name}`, err);
   });
 }
 
