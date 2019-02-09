@@ -25,6 +25,5 @@
   ],
   "background": {
     "scripts": ["./build/backgroundScript.js"]
-  },
-  "web_accessible_resources": ["./build/injectedHelpers.js"]
+  }
 }
