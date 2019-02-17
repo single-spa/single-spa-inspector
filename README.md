@@ -1,11 +1,13 @@
 # single-spa Devtools Inspector
 
-A Firefox/Chrome devtools extension to provide utilities for helping with [single-spa](https://single-spa.js.org) applications
+A Firefox/Chrome devtools extension to provide utilities for helping with [single-spa](https://single-spa.js.org) applications.
+
+Requires >= single-spa@4.1
 
 ## Installation links
 
-- [Firefox]()
-- [Chrome]()
+- [Firefox](https://addons.mozilla.org/en-US/firefox/addon/single-spa-inspector/)
+- Chrome (url coming soon)
 
 Note: you can also build and run this locally. See [how to contribute](#how-to-contribute)
 
