@@ -1,28 +1,38 @@
+// this whole exported function is stringified, so be aware
 export function setupOverlayHelpers() {
   const overlayDivClassName = `single-spa_overlay--div`;
-  const hexRegex = /^#[A-Fa-f0-9]{6}$/g;
+  window.__SINGLE_SPA_DEVTOOLS__.overlay = setOverlaysOnApp;
+  window.__SINGLE_SPA_DEVTOOLS__.removeOverlay = removeOverlaysFromApp;
 
+  // executed when you want to show the overlay
   function setOverlaysOnApp(appName) {
     const app = getAppByName(appName);
     const { options, selectors } = getSelectorsAndOptions(app);
-    applyOverlays(selectors, options, app.name);
-  }
 
-  function applyOverlays(selectors, options, appName) {
     selectors.forEach(selector => {
       createOverlayWithText(selector, options, appName);
     });
   }
 
+  // executed when you want to remove the overlay
   function removeOverlaysFromApp(appName) {
     const app = getAppByName(appName);
     const { selectors } = getSelectorsAndOptions(app);
-    removeOverlayFromSelectors(selectors);
+    selectors.forEach(selector => {
+      const element = document.querySelector(selector);
+      if (!element) {
+        return null;
+      }
+      const existingOverlayDiv = element.querySelector(
+        `.${overlayDivClassName}`
+      );
+      existingOverlayDiv &&
+        existingOverlayDiv.remove &&
+        existingOverlayDiv.remove();
+    });
   }
 
-  function deleteNode(node) {
-    node && node.remove && node.remove();
-  }
+  // everything after this are helper functions
 
   function getSelectorsAndOptions(app) {
     return {
@@ -37,21 +47,6 @@ export function setupOverlayHelpers() {
         .filter(selection => selection),
       options: app.devtools.overlays.options || {}
     };
-  }
-
-  function removeOverlayFromSelectors(selectors) {
-    selectors.forEach(selector => {
-      removeOverlay(selector);
-    });
-  }
-
-  function removeOverlay(selector) {
-    const element = document.querySelector(selector);
-    if (!element) {
-      return null;
-    }
-    const existingOverlayDiv = element.querySelector(`.${overlayDivClassName}`);
-    deleteNode(existingOverlayDiv);
   }
 
   function createOverlayWithText(selector, options, appName) {
@@ -77,6 +72,7 @@ export function setupOverlayHelpers() {
     div.style.left = options.left || 0;
     div.style.pointerEvents = "none";
     let backgroundColor;
+    const hexRegex = /^#[A-Fa-f0-9]{6}$/g;
     if (options.color && hexRegex.test(options.color)) {
       backgroundColor = getRGBAFromHex(options.color.replace("#", ""));
     } else if (options.background) {
@@ -113,12 +109,7 @@ export function setupOverlayHelpers() {
   }
 
   function getColorFromString(string, opacity = 0.1) {
-    const hex = getHexFromString(string);
-    return getRGBAFromHex(hex, opacity);
-  }
-
-  function getHexFromString(string) {
-    let result = (
+    const raw = (
       parseInt(
         parseInt(string, 36)
           .toExponential()
@@ -128,11 +119,12 @@ export function setupOverlayHelpers() {
     )
       .toString(16)
       .toUpperCase();
-    return result
+    const hex = raw
       .split("")
       .concat([0, 0, 0, 0, 0, 0])
       .slice(0, 6)
       .join("");
+    return getRGBAFromHex(hex, opacity);
   }
 
   function getRGBAFromHex(hex, opacity = 0.1) {
@@ -150,7 +142,4 @@ export function setupOverlayHelpers() {
     const { getRawAppData } = window.__SINGLE_SPA_DEVTOOLS__.exposedMethods;
     return getRawAppData().find(rawApp => rawApp.name === appName);
   }
-
-  window.__SINGLE_SPA_DEVTOOLS__.highlight = setOverlaysOnApp;
-  window.__SINGLE_SPA_DEVTOOLS__.removeHighlight = removeOverlaysFromApp;
 }
