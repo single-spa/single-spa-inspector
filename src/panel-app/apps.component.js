@@ -10,8 +10,8 @@ export default function Apps(props) {
 
   useEffect(() => {
     if (hovered) {
-      highlightApp(hovered);
-      return () => dehighlightApp(hovered);
+      overlayApp(hovered);
+      return () => deOverlayApp(hovered);
     }
   }, [hovered]);
 
@@ -80,18 +80,25 @@ function sortApps(apps) {
     });
 }
 
-function highlightApp(app) {
-  if (app.status !== "SKIP_BECAUSE_BROKEN" && app.status !== "NOT_LOADED") {
+function overlayApp(app) {
+  if (
+    app.status !== "SKIP_BECAUSE_BROKEN" &&
+    app.status !== "NOT_LOADED" &&
+    app.devtools &&
+    app.devtools.overlays
+  ) {
     evalDevtoolsCmd(`overlay('${app.name}')`).catch(err => {
       console.error(`Error overlaying applicaton: ${app.name}`, err);
     });
   }
 }
 
-function dehighlightApp(app) {
-  evalDevtoolsCmd(`removeOverlay('${app.name}')`).catch(err => {
-    console.error(`Error removing overlay on applicaton: ${app.name}`, err);
-  });
+function deOverlayApp(app) {
+  if (app.devtools && app.devtools.overlays) {
+    evalDevtoolsCmd(`removeOverlay('${app.name}')`).catch(err => {
+      console.error(`Error removing overlay on applicaton: ${app.name}`, err);
+    });
+  }
 }
 
 const css = `
