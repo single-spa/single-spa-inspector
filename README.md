@@ -30,8 +30,8 @@ export const devtools = {
   overlays: {
     // selectors is required for overlays to work
     selectors: [
-      //an array of CSS selector strings, meant to be unique ways to identify the outermost container of your app
-      //you can have more than one, for cases like parcels or different containers for differet views
+      // an array of CSS selector strings, meant to be unique ways to identify the outermost container of your app
+      // you can have more than one, for cases like parcels or different containers for differet views
       "#my-app",
       ".some-container .app"
     ],
