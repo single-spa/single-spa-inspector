@@ -27,7 +27,7 @@ export default function Apps(props) {
       <table className={"table"}>
         <thead className="table-header">
           <tr>
-            <th>Name</th>
+            <th>App Name</th>
             <th>Status</th>
             <th>Status Overrides</th>
           </tr>
