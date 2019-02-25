@@ -15,9 +15,16 @@ export default function Apps(props) {
     }
   }, [hovered]);
 
+  useEffect(() => {
+    document.body.classList.add(props.theme);
+    return () => {
+      document.body.classList.remove(props.theme);
+    };
+  }, [props.theme]);
+
   return (
     <Scoped css={css}>
-      <table className={`theme-${props.theme ? props.theme : "dark"} table`}>
+      <table className={"table"}>
         <thead className="table-header">
           <tr>
             <th>Name</th>
@@ -102,6 +109,15 @@ function deOverlayApp(app) {
 }
 
 const css = `
+body {
+  font-family: sans-serif;
+}
+
+body.dark {
+  background-color: #272822;
+  color: #F8F8F2;
+}
+
 & .table {
   width: 100%;
 }
@@ -113,11 +129,6 @@ const css = `
 & .table-header {
   color: #66D9EF;
   text-align: left;
-}
-
-& .theme-dark {
-  background-color: #272822;
-  color: #F8F8F2;
 }
 
 & .app-status {
