@@ -5,11 +5,17 @@ import Button from "./button";
 import { evalDevtoolsCmd } from "../inspected-window.helper.js";
 import useImportMapOverrides from "./useImportMapOverrides";
 
+const OFF = "off",
+  ON = "on",
+  LIST = "list",
+  PAGE = "page";
+
 export default function Apps(props) {
   const sortedApps = useMemo(() => sortApps(props.apps), [props.apps]);
   const importMaps = useImportMapOverrides();
 
   const [hovered, setHovered] = useState();
+  const [overlaysEnabled, setOverlaysEnabled] = useState("off");
 
   useEffect(() => {
     if (hovered) {
@@ -28,6 +34,19 @@ export default function Apps(props) {
   return (
     <Scoped css={css}>
       <span>
+        <div>
+          <label htmlFor="overlayEnabledSelect">Overlays: </label>
+          <select
+            id="overlayEnabledSelect"
+            value={overlaysEnabled}
+            onChange={e => setOverlaysEnabled(e.target.value)}
+          >
+            <option value={OFF}>Off</option>
+            <option value={ON}>On</option>
+            <option value={LIST}>On list hover</option>
+            <option value={PAGE}>On page hover</option>
+          </select>
+        </div>
         <div role="table" className={"table"}>
           <div role="row">
             <span role="columnheader">App Name</span>
