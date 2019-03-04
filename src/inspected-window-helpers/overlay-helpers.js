@@ -102,7 +102,7 @@ export function setupOverlayHelpers() {
     return div;
   }
 
-  function getColorFromString(string, opacity = 0.1) {
+  function getColorFromString(string, opacity = 0.4) {
     const raw = (
       parseInt(
         parseInt(string, 36)
@@ -121,8 +121,7 @@ export function setupOverlayHelpers() {
     return getRGBAFromHex(hex, opacity);
   }
 
-  function getRGBAFromHex(hex, opacity = 0.1) {
-    const rgba = [
+  function getRGBAFromHex(hex, opacity = 0.4) {
       `0x${hex.slice(0, 2)}`,
       `0x${hex.slice(2, 4)}`,
       `0x${hex.slice(4, 6)}`
