@@ -7,12 +7,12 @@
   "homepage_url": "https://github.com/CanopyTax/single-spa-inspector",
   "description": "A devtools panel for single-spa applications",
   "browser_action": {
-    "default_icon": "./logo-white-bgblue.svg",
+    "default_icon": "./logo-white-bgblue.png",
     "default_title": "single-spa Inspector"
   },
   "icons": {
-    "48": "./logo-white-bgblue.svg",
-    "96": "./logo-white-bgblue.svg"
+    "48": "./logo-white-bgblue.png",
+    "96": "./logo-white-bgblue.png"
   },
   "devtools_page": "./build/main.html",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
