@@ -13,16 +13,23 @@ const OFF = "off",
 export default function Apps(props) {
   const sortedApps = useMemo(() => sortApps(props.apps), [props.apps]);
   const importMaps = useImportMapOverrides();
-
+  const { mounted: mountedApps, other: otherApps } = groupApps(props.apps);
   const [hovered, setHovered] = useState();
   const [overlaysEnabled, setOverlaysEnabled] = useState("off");
 
   useEffect(() => {
-    if (hovered) {
+    if (overlaysEnabled === LIST && hovered) {
       overlayApp(hovered);
       return () => deOverlayApp(hovered);
     }
-  }, [hovered]);
+  }, [overlaysEnabled, hovered]);
+
+  useEffect(() => {
+    if (overlaysEnabled === ON) {
+      mountedApps.forEach(app => overlayApp(app));
+      return () => mountedApps.forEach(app => deOverlayApp(app));
+    }
+  }, [overlaysEnabled]);
 
   useEffect(() => {
     document.body.classList.add(props.theme);
@@ -56,7 +63,7 @@ export default function Apps(props) {
               <span role="columnheader">Import Override</span>
             )}
           </div>
-          {sortedApps.map(app => (
+          {sortedApps.concat(otherApps).map(app => (
             <div
               role="row"
               key={app.name}
@@ -134,6 +141,24 @@ function sortApps(apps) {
         return 0;
       }
     });
+}
+
+function groupApps(apps) {
+  const [mounted, other] = apps.reduce(
+    (list, app) => {
+      const group =
+        app.status === "MOUNTED" || !!app.devtools.activeWhenForced ? 0 : 1;
+      list[group].push(app);
+      return list;
+    },
+    [[], []]
+  );
+  mounted.sort((a, b) => a.name.localeCompare(b.name));
+  other.sort((a, b) => a.name.localeCompare(b.name));
+  return {
+    mounted,
+    other
+  };
 }
 
 function overlayApp(app) {
