@@ -122,13 +122,12 @@ export function setupOverlayHelpers() {
   }
 
   function getRGBAFromHex(hex, opacity = 0.4) {
+    const [r, g, b] = [
       `0x${hex.slice(0, 2)}`,
       `0x${hex.slice(2, 4)}`,
       `0x${hex.slice(4, 6)}`
-    ];
-    return `rgba(${parseInt(rgba[0])}, ${parseInt(rgba[1])}, ${parseInt(
-      rgba[2]
-    )}, ${opacity})`;
+    ].map(v => parseInt(v));
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
 
   function getAppByName(appName) {
