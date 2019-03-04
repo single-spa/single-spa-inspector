@@ -22,10 +22,9 @@ export function setupOverlayHelpers() {
       if (!node) {
         return null;
       }
-      const existingOverlayDiv = node.querySelector(`.${overlayDivClassName}`);
-      existingOverlayDiv &&
-        existingOverlayDiv.remove &&
-        existingOverlayDiv.remove();
+      node
+        .querySelectorAll(`.${overlayDivClassName}`)
+        .forEach(overlayElem => overlayElem.parentNode.removeChild(overlayElem));
     });
   }
 
