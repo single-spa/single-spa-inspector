@@ -55,16 +55,7 @@ export function setupOverlayHelpers() {
     if (existingOverlayDiv) {
       return existingOverlayDiv;
     }
-    const div = node.appendChild(document.createElement("div"));
     // setup main overlay div
-    div.className = className;
-    div.style.width = options.width || "100%";
-    div.style.height = options.height || "100%";
-    div.style.zIndex = options.zIndex || 40;
-    div.style.position = options.position || "absolute";
-    div.style.top = options.top || 0;
-    div.style.left = options.left || 0;
-    div.style.pointerEvents = "none";
     let backgroundColor;
     const hexRegex = /^#[A-Fa-f0-9]{6}$/g;
     if (options.color && hexRegex.test(options.color)) {
@@ -74,32 +65,44 @@ export function setupOverlayHelpers() {
     } else {
       backgroundColor = getColorFromString(appName);
     }
-    div.style.background = backgroundColor;
-
-    const childDiv = div.appendChild(document.createElement("div"));
-    childDiv.style.display = "flex";
-    childDiv.style.flexDirection = node.clientHeight > 80 ? "column" : "row";
-    childDiv.style.alignItems = "center";
-    childDiv.style.justifyContent = "center";
-    childDiv.style.color =
-      options.color || options.textColor || getColorFromString(appName, 1);
-    childDiv.style.fontWeight = "bold";
-    childDiv.style.height = "100%";
-    childDiv.style.fontSize = "32px";
-
-    const appNameDiv = document.createElement("div");
-    appNameDiv.appendChild(document.createTextNode(appName));
-    childDiv.appendChild(appNameDiv);
-
-    if (options.textBlocks && options.textBlocks.length >= 1) {
-      options.textBlocks.forEach(textBlock => {
-        const textBlockDiv = document.createElement("div");
-        textBlockDiv.appendChild(document.createTextNode(textBlock));
-        childDiv.appendChild(textBlockDiv);
-      });
-    }
-
-    return div;
+    const domStr = `
+      <div
+        class="${className}"
+        style="
+          background: ${backgroundColor};
+          height: ${options.height || element.clientHeight + "px"};
+          left: ${options.left || element.offsetLeft + "px"};
+          pointer-events: none;
+          position: ${options.position || "absolute"};
+          top: ${options.top || element.offsetTop + "px"};
+          width: ${options.width || element.clientWidth + "px"};
+          z-index: ${options.zIndex || 40};
+        "
+      >
+        <div style="
+          align-items: center;
+          color: ${options.color ||
+            options.textColor ||
+            getColorFromString(appName, 1)};
+          display: flex;
+          flex-direction: ${element.clientHeight > 80 ? "column" : "row"};
+          font-size: 2rem;
+          font-weight: bold;
+          height: 100%;
+          justify-content: center;
+        ">
+          <div>${appName}</div>
+          ${
+            options.textBlocks && options.textBlocks.length >= 1
+              ? options.textBlocks.map(textBlock => `<div>${textBlock}</div>`)
+              : ""
+          }
+        </div>
+      </div>
+    `;
+    const overlayEl = new DOMParser().parseFromString(domStr, "text/html").body
+      .firstChild;
+    return node.appendChild(overlayEl);
   }
 
   function getColorFromString(string, opacity = 0.4) {
