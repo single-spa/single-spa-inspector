@@ -9,7 +9,7 @@ Requires >= single-spa@4.1
 - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/single-spa-inspector/)
 - [Chrome](https://chrome.google.com/webstore/detail/single-spa-inspector/emldbibkihanfiaiaghebffnbahjcgcp)
 
-Note: you can also build and run this locally. See [how to contribute](#how-to-contribute)
+Note: you can also build and run this locally. See [contributing](#contributing)
 
 ## Features
 
@@ -73,19 +73,18 @@ If you would like to request a feature to be added, please open an issue with th
 
 ---
 
-## How to contribute
+## Contributing
 
 To fix a bug, add features, or just build the extension locally:
 
-1. Install Firefox (Chrome support coming)
-1. [Create a FF profile](#create-a-firefox-dev-profile) called `single-spa-inspector-dev`
+1. Install Firefox
 1. Clone this repo
 1. `nvm use` (ensures we're all using the same version of node)
 1. `npm i`
 1. `npm start`
 1. Open devtools and navigate to the **single-spa Inspector** tab
 
-### Create a Firefox dev profile
+### Firefox Development
 
 Currently, development happens by default in Firefox. If you would like Firefox to remember any settings that you change to Firefox itself, this project is configured to use a profile called "single-spa-inspector-dev". To create this profile, go to [about:profiles](about:profiles). Firefox will use that profile and remember any changes you make (e.g. devtools location, devtools dark mode, etc.)
 
