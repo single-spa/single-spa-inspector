@@ -123,7 +123,7 @@ export function setupOverlayHelpers() {
     return getRGBAFromHex(hex, opacity);
   }
 
-  function getRGBAFromHex(hex, opacity = 0.4) {
+  function getRGBAFromHex(hex, opacity = 0.1) {
     const [r, g, b] = [
       `0x${hex.slice(0, 2)}`,
       `0x${hex.slice(2, 4)}`,
