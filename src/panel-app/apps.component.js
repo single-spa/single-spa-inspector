@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Scoped, always, maybe } from "kremling";
 import AppStatusOverride from "./app-status-override.component";
 import { evalDevtoolsCmd, evalCmd } from "../inspected-window.helper.js";
+import useImportMapOverrides from "./useImportMapOverrides";
 
 export default function Apps(props) {
-  const sortedApps = sortApps(props.apps);
+  const sortedApps = useMemo(() => sortApps(props.apps), [props.apps]);
+  const importMaps = useImportMapOverrides();
 
   const [hovered, setHovered] = useState();
 
@@ -30,6 +32,7 @@ export default function Apps(props) {
             <th>App Name</th>
             <th>Status</th>
             <th>Status Overrides</th>
+            {importMaps.enabled && <th>Import Override</th>}
           </tr>
         </thead>
         <tbody>
@@ -50,10 +53,25 @@ export default function Apps(props) {
               <td>
                 <AppStatusOverride app={app} />
               </td>
+              {importMaps.enabled && (
+                <td>
+                  <input
+                    value={importMaps.overrides[app.name] || ""}
+                    onChange={e => {
+                      importMaps.setOverride(app.name, e.target.value);
+                    }}
+                  />
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
       </table>
+      {importMaps.enabled && (
+        <button onClick={importMaps.commitOverrides}>
+          Apply Overrides & Refresh
+        </button>
+      )}
     </Scoped>
   );
 }
