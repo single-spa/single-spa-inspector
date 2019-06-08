@@ -130,17 +130,9 @@ function sortApps(apps) {
       return 0;
     })
     .sort((a, b) => {
-      const statusA =
-        a.status === "MOUNTED" || !!a.devtools.activeWhenForced ? 1 : 0;
-      const statusB =
-        b.status === "MOUNTED" || !!b.devtools.activeWhenForced ? 1 : 0;
-      if (statusA > statusB) {
-        return -1;
-      } else if (statusA < statusB) {
-        return 1;
-      } else {
-        return 0;
-      }
+      const statusA = a.status === "MOUNTED" || !!a.devtools.activeWhenForced;
+      const statusB = b.status === "MOUNTED" || !!b.devtools.activeWhenForced;
+      return statusA - statusB;
     });
 }
 
