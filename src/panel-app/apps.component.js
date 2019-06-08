@@ -13,30 +13,31 @@ const OFF = "off",
 export default function Apps(props) {
   const sortedApps = useMemo(() => sortApps(props.apps), [props.apps]);
   const importMaps = useImportMapOverrides();
-  const { mounted: mountedApps, other: otherApps } = groupApps(props.apps);
+  const { mounted: mountedApps, other: otherApps } = useMemo(
+    () => groupApps(props.apps),
+    [props.apps]
+  );
   const [hovered, setHovered] = useState();
   const [overlaysEnabled, setOverlaysEnabled] = useState("off");
 
   useEffect(() => {
     if (overlaysEnabled === LIST && hovered) {
       overlayApp(hovered);
-      return () => deOverlayApp(hovered);
+      return () => {
+        deOverlayApp(hovered);
+      };
     }
   }, [overlaysEnabled, hovered]);
 
   useEffect(() => {
     if (overlaysEnabled === ON) {
       mountedApps.forEach(app => overlayApp(app));
-      return () => mountedApps.forEach(app => deOverlayApp(app));
+      otherApps.forEach(app => deOverlayApp(app));
+      return () => {
+        mountedApps.forEach(app => deOverlayApp(app));
+      };
     }
-  }, [overlaysEnabled]);
-
-  useEffect(() => {
-    document.body.classList.add(props.theme);
-    return () => {
-      document.body.classList.remove(props.theme);
-    };
-  }, [props.theme]);
+  }, [overlaysEnabled, mountedApps, otherApps]);
 
   return (
     <Scoped css={css}>
