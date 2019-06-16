@@ -19,7 +19,7 @@ const css = `
   font-size: .75rem;
   padding: .125rem .5rem;
   text-shadow: 0px 2px 4px rgba(0,0,0,.15);
-  transition: all .15s ease-in-out;
+  transition: background .15s ease-in-out;
 }
 & .button:hover,
 & .button:focus {
