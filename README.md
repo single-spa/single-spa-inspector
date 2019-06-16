@@ -17,7 +17,7 @@ Note: you can also build and run this locally. See [how to contribute](#how-to-c
 - Show all application statuses (statii)
 - Force mount and unmount an application
 - Show app overlays (see [configuring app overlays](#configuring-app-overlays) to enable this feature)
-- Provides an interface for adding import-map overrides
+- Provides an interface for adding [import-map overrides](#import-map-overrides)
 
 ## Configuring app overlays
 
