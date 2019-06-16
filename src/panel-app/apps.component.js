@@ -127,6 +127,20 @@ function deOverlayApp(app) {
 }
 
 const css = `
+:root {
+  --color-blue-light: #6e92ff;
+  --color-blue: #36f;
+  --color-blue-dark: #2850c8;
+  --color-blue-darkest: #172e74;
+
+  --gray: #82889a;
+  --blue-light: #96b0ff;
+  --blue: #3366ff;
+  --blue-dark: #2850c8;
+  --pink: #e62e5c;
+  --green: #28cb51;
+  --table-spacing: .5rem;
+}
 body {
   font-family: sans-serif;
 }
@@ -150,14 +164,20 @@ body.dark {
 }
 
 & .app-status {
+  border-radius: 1rem;
+  color: #fff;
+  font-size: .75rem;
+  padding: .25rem .5rem .125rem;
+  text-shadow: 0px 2px 4px rgba(0,0,0,.15);
   text-transform: capitalize;
 }
 
 & .app-mounted {
-  color: #A6E22E;
+  background-color: var(--green);
 }
 
 & .app-not-mounted {
+  background-color: var(--pink);
   color: #F92672;
 }
 `;

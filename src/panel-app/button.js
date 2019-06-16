@@ -12,7 +12,7 @@ export default function Button({ children, ...props }) {
 
 const css = `
 & .button {
-  background: var(--blue5);
+  background: var(--blue);
   border: none;
   border-radius: 3px;
   color: #fff;
@@ -23,12 +23,12 @@ const css = `
 }
 & .button:hover,
 & .button:focus {
-  background: var(--blue7);
+  background: var(--blue-dark);
 }
 & .button:not(:first-of-type) {
   margin-left: .25rem;
 }
 & .button:disabled {
-  background: var(--blue3);
+  background: var(--blue-light);
 }
 `;
