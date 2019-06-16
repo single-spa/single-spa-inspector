@@ -17,6 +17,7 @@ Note: you can also build and run this locally. See [how to contribute](#how-to-c
 - Show all application statuses (statii)
 - Force mount and unmount an application
 - Show app overlays (see [configuring app overlays](#configuring-app-overlays) to enable this feature)
+- Provides an interface for adding import-map overrides
 
 ## Configuring app overlays
 
@@ -59,6 +60,12 @@ export const devtools = {
   }
 };
 ```
+
+## Import-map Overrides
+
+If your environment uses [import-maps](https://github.com/WICG/import-maps), single-spa Inspector provides an interface for adding import-map overrides when utilizing the [import-map-overrides](https://github.com/joeldenning/import-map-overrides) library. Once the [installation requirements](https://github.com/joeldenning/import-map-overrides#installation) for import-map-overrides are completed, you can add, remove, and refresh the page with your overrides.
+
+![](demo-with-importmapoverrides.png)
 
 ## Feature requests
 
