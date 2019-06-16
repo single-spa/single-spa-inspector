@@ -140,11 +140,6 @@ function deOverlayApp(app) {
 
 const css = `
 :root {
-  --color-blue-light: #6e92ff;
-  --color-blue: #36f;
-  --color-blue-dark: #2850c8;
-  --color-blue-darkest: #172e74;
-
   --gray: #82889a;
   --blue-light: #96b0ff;
   --blue: #3366ff;
