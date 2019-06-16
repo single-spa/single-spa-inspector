@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 import { evalDevtoolsCmd } from "../inspected-window.helper";
+import Button from "./button";
 
 export default function AppStatusOverride(props) {
   const [state, dispatch] = useReducer(reducer, inititalState);
@@ -19,17 +20,17 @@ export default function AppStatusOverride(props) {
   return (
     <>
       {(activeWhenForced === "off" || props.app.status !== "MOUNTED") && (
-        <button onClick={() => dispatch({ type: "on" })}>Mount</button>
+        <Button onClick={() => dispatch({ type: "on" })}>Mount</Button>
       )}
       {(activeWhenForced === "on" || props.app.status === "MOUNTED") && (
-        <button onClick={() => dispatch({ type: "off" })}>Unmount</button>
+        <Button onClick={() => dispatch({ type: "off" })}>Unmount</Button>
       )}
-      <button
+      <Button
         onClick={() => dispatch({ type: "reset" })}
         disabled={!activeWhenForced}
       >
         Reset
-      </button>
+      </Button>
     </>
   );
 }
