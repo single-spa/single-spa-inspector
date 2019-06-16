@@ -9,7 +9,7 @@ export default function useImportMapOverrides() {
     const hasImportMapsEnabled = await evalCmd(`(function() {
       return !!window.importMapOverrides
     })()`);
-    setImportMapEnabled(hasImportMapsEnabled);
+    return hasImportMapsEnabled;
   }
 
   async function getImportMapOverrides() {
@@ -41,10 +41,15 @@ export default function useImportMapOverrides() {
 
   // Get initial list of maps if they exist
   useEffect(() => {
-    const hasImportMapsEnabled = checkImportMapOverrides();
-    if (hasImportMapsEnabled) {
-      getImportMapOverrides();
+    async function initImportMapsOverrides() {
+      const hasImportMapsEnabled = await checkImportMapOverrides();
+      if (hasImportMapsEnabled) {
+        setImportMapEnabled(hasImportMapsEnabled);
+        await getImportMapOverrides();
+      }
     }
+
+    initImportMapsOverrides();
   }, []);
 
   const setOverride = (mapping, url) => {
