@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Scoped, always, maybe } from "kremling";
+import { Scoped, always } from "kremling";
 import AppStatusOverride from "./app-status-override.component";
-import { evalDevtoolsCmd, evalCmd } from "../inspected-window.helper.js";
+import Button from "./button";
+import { evalDevtoolsCmd } from "../inspected-window.helper.js";
 import useImportMapOverrides from "./useImportMapOverrides";
 
 export default function Apps(props) {
@@ -26,52 +27,63 @@ export default function Apps(props) {
 
   return (
     <Scoped css={css}>
-      <table className={"table"}>
-        <thead className="table-header">
-          <tr>
-            <th>App Name</th>
-            <th>Status</th>
-            <th>Status Overrides</th>
-            {importMaps.enabled && <th>Import Override</th>}
-          </tr>
-        </thead>
-        <tbody>
+      <span>
+        <div role="table" className={"table"}>
+          <div role="row">
+            <span role="columnheader">App Name</span>
+            <span role="columnheader">Status</span>
+            <span role="columnheader">Actions</span>
+            {importMaps.enabled && (
+              <span role="columnheader">Import Override</span>
+            )}
+          </div>
           {sortedApps.map(app => (
-            <tr
+            <div
+              role="row"
               key={app.name}
               onMouseEnter={() => setHovered(app)}
               onMouseLeave={() => setHovered()}
             >
-              <td>{app.name}</td>
-              <td
-                className={always("app-status")
-                  .maybe("app-mounted", app.status === "MOUNTED")
-                  .maybe("app-not-mounted", app.status !== "MOUNTED")}
-              >
-                {app.status.replace("_", " ").toLowerCase()}
-              </td>
-              <td>
+              <div role="cell">{app.name}</div>
+              <div role="cell">
+                <span
+                  className={always("app-status")
+                    .maybe("app-mounted", app.status === "MOUNTED")
+                    .maybe("app-not-mounted", app.status !== "MOUNTED")}
+                >
+                  {app.status.replace("_", " ")}
+                </span>
+              </div>
+              <div role="cell">
                 <AppStatusOverride app={app} />
-              </td>
+              </div>
               {importMaps.enabled && (
-                <td>
+                <div role="cell">
                   <input
+                    className={always("import-override")}
+                    aria-label={`Input an import-map override url for ${
+                      app.name
+                    }`}
                     value={importMaps.overrides[app.name] || ""}
                     onChange={e => {
                       importMaps.setOverride(app.name, e.target.value);
                     }}
                   />
-                </td>
+                </div>
               )}
-            </tr>
+            </div>
           ))}
-        </tbody>
-      </table>
-      {importMaps.enabled && (
-        <button onClick={importMaps.commitOverrides}>
-          Apply Overrides & Refresh
-        </button>
-      )}
+          {importMaps.enabled && (
+            <div role="row">
+              <div role="cell" className="summary-action">
+                <Button onClick={importMaps.commitOverrides}>
+                  Apply Overrides & Refresh
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </span>
     </Scoped>
   );
 }
@@ -150,18 +162,32 @@ body.dark {
   color: #F8F8F2;
 }
 
-& .table {
-  width: 100%;
+& [role="table"] {
+  display: grid;
+  grid-row-gap: var(--table-spacing);
+  grid-template-columns: 1fr;
+  padding: var(--table-spacing);
+  width: max-content;
 }
 
-& .table td, .table th {
-  padding: 2px 8px;
+& [role="columnheader"] {
+  color: var(--gray);
+  font-size: .9rem;
+  padding-left: .25rem;
 }
 
-& .table-header {
-  color: #66D9EF;
-  text-align: left;
+& [role="row"] {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 2fr;
+  grid-column-gap: calc(var(--table-spacing) * 2);
 }
+
+& [role="row"] [role="cell"]:nth-child(1) { grid-area: 1 / 1 / 2 / 2; }
+& [role="row"] [role="cell"]:nth-child(2) { grid-area: 1 / 2 / 2 / 3; }
+& [role="row"] [role="cell"]:nth-child(3) { grid-area: 1 / 3 / 2 / 4; }
+& [role="row"] [role="cell"]:nth-child(4), 
+& [role="row"] [role="cell"].summary-action { grid-area: 1 / 4 / 2 / 5; }
 
 & .app-status {
   border-radius: 1rem;
@@ -178,6 +204,19 @@ body.dark {
 
 & .app-not-mounted {
   background-color: var(--pink);
-  color: #F92672;
+}
+
+& .import-override {
+  border: 1.5px solid lightgrey;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: .75rem;
+  padding: .2rem;
+  transition: all .15s ease-in-out;
+  width: 100%;
+}
+
+& .import-override:focus {
+  border-color: var(--blue);
 }
 `;
