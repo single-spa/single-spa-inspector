@@ -53,8 +53,10 @@ export default function useImportMapOverrides() {
   }, []);
 
   const setOverride = (mapping, url) => {
-    const newMapping = { [mapping]: url };
-    const newOverrides = Object.assign({}, overrides, newMapping);
+    const newOverrides = {
+      ...overrides,
+      [mapping]: url
+    };
     setOverrides(newOverrides);
   };
 
