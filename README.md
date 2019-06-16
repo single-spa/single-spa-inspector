@@ -76,10 +76,15 @@ To fix a bug, add features, or just build the extension locally:
 1. `nvm use` (ensures we're all using the same version of node)
 1. `npm i`
 1. `npm start`
+1. Open devtools and navigate to the **single-spa Inspector** tab
 
 ### Create a Firefox dev profile
 
-Currently, development happens by default in Firefox. If you would like Firefox to remember any settings that you change to Firefox itself, this project is configured to use a profile called "single-spa-inspector-dev". To create this profile, go to `about:profiles` in Firefox and create it. From then on, Firefox will use that profile and remember any changes you make (e.g. devtools location, devtools dark mode, etc.)
+Currently, development happens by default in Firefox. If you would like Firefox to remember any settings that you change to Firefox itself, this project is configured to use a profile called "single-spa-inspector-dev". To create this profile, go to [about:profiles](about:profiles). Firefox will use that profile and remember any changes you make (e.g. devtools location, devtools dark mode, etc.)
+
+### Debugging
+
+Once single-spa Inspector is running, open a new tab and navigate to [about:debugging](about:debugging). single-spa Inspector should be listed as a Temporary Extension, and a "Debug" control should be displayed. Click on this to enable devtools for the extension. In the upper-right corner, click on the divided square icon next to the 3-dot menu, and select `/build/panel.html` as the target. You can now inspect the inspector UI as you would a normal webpage.
 
 ---
 
