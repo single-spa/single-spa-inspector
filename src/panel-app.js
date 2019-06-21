@@ -3,15 +3,23 @@ import ReactDOM from "react-dom";
 import { evalDevtoolsCmd } from "./inspected-window.helper";
 import browser from "webextension-polyfill";
 import Apps from "./panel-app/apps.component";
+import ErrorBoundary from "./panel-app/ErrorBoundary.component";
 
 function PanelRoot(props) {
   const [apps, setApps] = useState();
+  const [appError, setAppError] = useState();
+
+  if (appError) {
+    throw appError;
+  }
 
   useEffect(() => {
-    getApps(setApps).catch(err => {
-      console.error("error in getting apps on mount");
-      throw err;
-    });
+    try {
+      getApps(setApps);
+    } catch (err) {
+      err.message = `Error during getApps: ${err.message}`;
+      setAppError(err);
+    }
   }, []);
 
   useEffect(() => {
@@ -51,6 +59,10 @@ function contentScriptListener(setApps, msg) {
 
 //themeName may or may not work in chrome. yet to test it to see whether it does or not
 ReactDOM.render(
-  <PanelRoot theme={browser.devtools.panels.themeName} />,
+  <React.StrictMode>
+    <ErrorBoundary>
+      <PanelRoot theme={browser.devtools.panels.themeName} />
+    </ErrorBoundary>
+  </React.StrictMode>,
   document.getElementById("app")
 );
