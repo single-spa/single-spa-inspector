@@ -17,6 +17,7 @@ Note: you can also build and run this locally. See [how to contribute](#how-to-c
 - Show all application statuses (statii)
 - Force mount and unmount an application
 - Show app overlays (see [configuring app overlays](#configuring-app-overlays) to enable this feature)
+- Provides an interface for adding [import-map overrides](#import-map-overrides)
 
 ## Configuring app overlays
 
@@ -60,6 +61,12 @@ export const devtools = {
 };
 ```
 
+## Import-map Overrides
+
+If your environment uses [import-maps](https://github.com/WICG/import-maps), single-spa Inspector provides an interface for adding import-map overrides when utilizing the [import-map-overrides](https://github.com/joeldenning/import-map-overrides) library. Once the [installation requirements](https://github.com/joeldenning/import-map-overrides#installation) for import-map-overrides are completed, you can add, remove, and refresh the page with your overrides.
+
+![Example of single-spa Inspector extension with import-maps overrides](demo-with-importmapoverrides.png)
+
 ## Feature requests
 
 If you would like to request a feature to be added, please open an issue with the title "Enhancement:"
@@ -76,10 +83,15 @@ To fix a bug, add features, or just build the extension locally:
 1. `nvm use` (ensures we're all using the same version of node)
 1. `npm i`
 1. `npm start`
+1. Open devtools and navigate to the **single-spa Inspector** tab
 
 ### Create a Firefox dev profile
 
-Currently, development happens by default in Firefox. If you would like Firefox to remember any settings that you change to Firefox itself, this project is configured to use a profile called "single-spa-inspector-dev". To create this profile, go to `about:profiles` in Firefox and create it. From then on, Firefox will use that profile and remember any changes you make (e.g. devtools location, devtools dark mode, etc.)
+Currently, development happens by default in Firefox. If you would like Firefox to remember any settings that you change to Firefox itself, this project is configured to use a profile called "single-spa-inspector-dev". To create this profile, go to [about:profiles](about:profiles). Firefox will use that profile and remember any changes you make (e.g. devtools location, devtools dark mode, etc.)
+
+### Debugging
+
+Once single-spa Inspector is running, open a new tab and navigate to [about:debugging](about:debugging). single-spa Inspector should be listed as a Temporary Extension, and a "Debug" control should be displayed. Click on this to enable devtools for the extension. In the upper-right corner, click on the divided square icon next to the 3-dot menu, and select `/build/panel.html` as the target. You can now inspect the inspector UI as you would a normal webpage.
 
 ---
 
