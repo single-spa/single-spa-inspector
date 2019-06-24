@@ -17,7 +17,7 @@ export default function useImportMapOverrides() {
       })()`);
       return hasImportMapsEnabled;
     } catch (err) {
-      err.message = `Error duing hasImporMapsEnabled. ${err.message}`;
+      err.message = `Error during hasImporMapsEnabled. ${err.message}`;
       setAppError(err);
     }
   }
@@ -29,7 +29,7 @@ export default function useImportMapOverrides() {
       })()`);
       setOverrides(imports);
     } catch (err) {
-      err.message = `Error duing getImportMapOverrides. ${err.message}`;
+      err.message = `Error during getImportMapOverrides. ${err.message}`;
       setAppError(err);
     }
   }
@@ -40,7 +40,7 @@ export default function useImportMapOverrides() {
         return window.importMapOverrides.addOverride("${currentMap}", "${currentUrl}")
       })()`);
     } catch (err) {
-      err.message = `Error duing addOverride. ${err.message}`;
+      err.message = `Error during addOverride. ${err.message}`;
       setAppError(err);
     }
   }
@@ -51,7 +51,7 @@ export default function useImportMapOverrides() {
         return window.importMapOverrides.removeOverride("${currentMap}")
       })()`);
     } catch (err) {
-      err.message = `Error duing removeOverride. ${err.message}`;
+      err.message = `Error during removeOverride. ${err.message}`;
       setAppError(err);
     }
   }
@@ -64,7 +64,7 @@ export default function useImportMapOverrides() {
       await Promise.all(overrideCalls);
       await evalCmd(`window.location.reload()`);
     } catch (err) {
-      err.message = `Error duing batchSetOverrides. ${err.message}`;
+      err.message = `Error during batchSetOverrides. ${err.message}`;
       setAppError(err);
     }
   }
@@ -82,7 +82,7 @@ export default function useImportMapOverrides() {
     try {
       initImportMapsOverrides();
     } catch (err) {
-      err.message = `Error duing initImportMapsOverrides. ${err.message}`;
+      err.message = `Error during initImportMapsOverrides. ${err.message}`;
       setAppError(err);
     }
   }, []);

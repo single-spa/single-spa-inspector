@@ -7,7 +7,7 @@
     "lint": "web-ext lint",
     "start": "concurrently --kill-others-on-fail --names \"EXT,WPK\" -c \"cyan,magenta\" \"npm:start:firefox\" \"webpack --watch\"",
     "start:firefox": "web-ext run --keep-profile-changes --firefox-profile=single-spa-inspector-dev",
-    "start:ffdev": "npm run start:firefox -- --firefox=firefoxdeveloperedition",
+    "start:firefoxdev": "npm run start:firefox -- --firefox=firefoxdeveloperedition",
     "self-sign": "npm run webpack-build && npm run lint && web-ext sign",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack-build": "webpack --mode=production"

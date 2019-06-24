@@ -26,7 +26,13 @@ export default class ErrorBoundary extends React.Component {
           </p>
           <p>
             Also, report this error{" "}
-            <a href="https://github.com/CanopyTax/single-spa-inspector/issues/new">
+            <a
+              href={`https://github.com/CanopyTax/single-spa-inspector/issues/new?title=Inspector%20bug%20report&body=${encodeURIComponent(
+                this.state.caughtError.message
+              )}%0A%0A%60%60%60%0A${encodeURIComponent(
+                this.state.caughtError.stack
+              )}%60%60%60`}
+            >
               here
             </a>{" "}
             if you don't mind, and copy the information below into that report:
