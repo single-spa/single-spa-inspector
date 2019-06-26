@@ -93,6 +93,16 @@ Currently, development happens by default in Firefox. If you would like Firefox 
 
 Once single-spa Inspector is running, open a new tab and navigate to [about:debugging](about:debugging). single-spa Inspector should be listed as a Temporary Extension, and a "Debug" control should be displayed. Click on this to enable devtools for the extension. In the upper-right corner, click on the divided square icon next to the 3-dot menu, and select `/build/panel.html` as the target. You can now inspect the inspector UI as you would a normal webpage.
 
+### Publishing a New Version
+
+1. Update the version in `manifest.json` and `package.json` (they should match)
+1. Get the API Key and API Secret for the extension
+1. Run the command `npm run self-sign -- --api-key={key} --api-secret={secret}`
+   - If it was successful, it will _fail_ with the error `The extension could not be signed`.
+   - Log into [https://addons.mozilla.org/en-US/developers/](https://addons.mozilla.org/en-US/developers/) and ensure that the latest version is the one you just published
+1. Run `npm run build` and there should be a new .zip file in `web-ext-artifacts` folder. Generally called `single-spa_inspector-{version}.zip`
+1. Upload it to [https://chrome.google.com/webstore/developer/dashboard](https://chrome.google.com/webstore/developer/dashboard)
+
 ---
 
 ## Thanks

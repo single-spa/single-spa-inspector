@@ -1,6 +1,6 @@
 {
   "name": "single-spa-inspector",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "A devtools extension for single-spa applications",
   "scripts": {
     "build": "npm run webpack-build && npm run lint && web-ext build",
