@@ -7,6 +7,7 @@
     "lint": "web-ext lint",
     "start": "concurrently --kill-others-on-fail --names \"EXT,WPK\" -c \"cyan,magenta\" \"npm:start:firefox\" \"webpack --watch\"",
     "start:firefox": "web-ext run --keep-profile-changes --firefox-profile=single-spa-inspector-dev",
+    "start:firefoxdev": "npm run start:firefox -- --firefox=firefoxdeveloperedition",
     "self-sign": "npm run webpack-build && npm run lint && web-ext sign",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack-build": "webpack --mode=production"
@@ -25,7 +26,7 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^3.0.0",
+    "clean-webpack-plugin": "^1.0.1",
     "concurrently": "^4.1.0",
     "copy-webpack-plugin": "^5.0.3",
     "husky": "^2.4.1",
