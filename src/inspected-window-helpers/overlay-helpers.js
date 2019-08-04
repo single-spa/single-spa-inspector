@@ -18,8 +18,7 @@ export function setupOverlayHelpers() {
   function removeOverlaysFromApp(appName) {
     const app = getAppByName(appName);
     const { selectors } = getSelectorsAndOptions(app);
-    selectors.forEach(selector => {
-      const element = document.querySelector(selector);
+    selectors.forEach(element => {
       if (!element) {
         return null;
       }
@@ -47,14 +46,13 @@ export function setupOverlayHelpers() {
     };
   }
 
-  function createOverlayWithText(selector, options, appName) {
-    const className = `${overlayDivClassName} ${(options.classes || []).join(
-      " "
-    )}`;
-    const element = document.querySelector(selector);
+  function createOverlayWithText(element, options, appName) {
     if (!element) {
       return null;
     }
+    const className = `${overlayDivClassName} ${(options.classes || []).join(
+      " "
+    )}`;
     const existingOverlayDiv = element.querySelector(`.${overlayDivClassName}`);
     if (existingOverlayDiv) {
       return existingOverlayDiv;
