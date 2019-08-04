@@ -7,24 +7,22 @@ export function setupOverlayHelpers() {
   // executed when you want to show the overlay
   function setOverlaysOnApp(appName) {
     const app = getAppByName(appName);
-    const { options, selectors } = getSelectorsAndOptions(app);
+    const { options, nodes } = getOverlayNodesAndOptions(app);
 
-    selectors.forEach(selector => {
-      createOverlayWithText(selector, options, appName);
+    nodes.forEach(node => {
+      createOverlayWithText(node, options, appName);
     });
   }
 
   // executed when you want to remove the overlay
   function removeOverlaysFromApp(appName) {
     const app = getAppByName(appName);
-    const { selectors } = getSelectorsAndOptions(app);
-    selectors.forEach(element => {
-      if (!element) {
+    const { nodes } = getOverlayNodesAndOptions(app);
+    nodes.forEach(node => {
+      if (!node) {
         return null;
       }
-      const existingOverlayDiv = element.querySelector(
-        `.${overlayDivClassName}`
-      );
+      const existingOverlayDiv = node.querySelector(`.${overlayDivClassName}`);
       existingOverlayDiv &&
         existingOverlayDiv.remove &&
         existingOverlayDiv.remove();
@@ -33,31 +31,31 @@ export function setupOverlayHelpers() {
 
   // everything after this are helper functions
 
-  function getSelectorsAndOptions(app) {
-    const { selectors } = app.devtools.overlays;
+  function getOverlayNodesAndOptions(app) {
+    const { selectors, options = {} } = app.devtools.overlays;
     if (!selectors.length) {
       selectors.push(`#single-spa-application\\:${app.name}`);
     }
     return {
-      selectors: selectors
+      nodes: selectors
         .map(selector => document.querySelector(selector))
         .filter(node => node),
-      options: app.devtools.overlays.options || {}
+      options
     };
   }
 
-  function createOverlayWithText(element, options, appName) {
-    if (!element) {
+  function createOverlayWithText(node, options, appName) {
+    if (!node) {
       return null;
     }
     const className = `${overlayDivClassName} ${(options.classes || []).join(
       " "
     )}`;
-    const existingOverlayDiv = element.querySelector(`.${overlayDivClassName}`);
+    const existingOverlayDiv = node.querySelector(`.${overlayDivClassName}`);
     if (existingOverlayDiv) {
       return existingOverlayDiv;
     }
-    const div = element.appendChild(document.createElement("div"));
+    const div = node.appendChild(document.createElement("div"));
     // setup main overlay div
     div.className = className;
     div.style.width = options.width || "100%";
@@ -80,7 +78,7 @@ export function setupOverlayHelpers() {
 
     const childDiv = div.appendChild(document.createElement("div"));
     childDiv.style.display = "flex";
-    childDiv.style.flexDirection = element.clientHeight > 80 ? "column" : "row";
+    childDiv.style.flexDirection = node.clientHeight > 80 ? "column" : "row";
     childDiv.style.alignItems = "center";
     childDiv.style.justifyContent = "center";
     childDiv.style.color =
