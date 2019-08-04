@@ -35,16 +35,14 @@ export function setupOverlayHelpers() {
   // everything after this are helper functions
 
   function getSelectorsAndOptions(app) {
+    const { selectors } = app.devtools.overlays;
+    if (!selectors.length) {
+      selectors.push(`#single-spa-application\\:${app.name}`);
+    }
     return {
-      selectors: app.devtools.overlays.selectors
-        .map(selector => {
-          if (document.querySelector(selector)) {
-            return selector;
-          } else {
-            return undefined;
-          }
-        })
-        .filter(selection => selection),
+      selectors: selectors
+        .map(selector => document.querySelector(selector))
+        .filter(node => node),
       options: app.devtools.overlays.options || {}
     };
   }
