@@ -1,3 +1,5 @@
 node_modules
 build
 web-ext-artifacts
+# prefer package-lock.json
+yarn.lock
