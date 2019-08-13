@@ -33,11 +33,9 @@ export function setupOverlayHelpers() {
 
   function getOverlayNodesAndOptions(app) {
     const { selectors, options = {} } = app.devtools.overlays;
-    if (!selectors.length) {
-      selectors.push(`#single-spa-application\\:${app.name}`);
-    }
     return {
       nodes: selectors
+        .concat(`#single-spa-application\\:${app.name}`)
         .map(selector => document.querySelector(selector))
         .filter(node => node),
       options
