@@ -32,7 +32,7 @@ export function setupOverlayHelpers() {
   // everything after this are helper functions
 
   function getOverlayNodesAndOptions(app) {
-    const { selectors, options = {} } = app.devtools.overlays;
+    const { selectors = [], options = {} } = app.devtools.overlays;
     return {
       nodes: selectors
         .concat(`#single-spa-application\\:${app.name}`)
