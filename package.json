@@ -13,8 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack-build": "webpack --mode=production",
     "deploy": "npm run deploy:firefox && npm run deploy:chrome",
-    "deploy:firefox": "npm run prebuild && shipit firefox web-ext-artifacts",
-    "deploy:chrome": "npm run build -- --overwrite-dest && shipit chrome web-ext-artifacts"
+    "deploy:firefox": "npm run prebuild && shipit firefox .",
   },
   "keywords": [
     "single-spa",
