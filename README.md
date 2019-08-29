@@ -96,12 +96,25 @@ Once single-spa Inspector is running, open a new tab and navigate to [about:debu
 ### Publishing a New Version
 
 1. Update the version in `manifest.json` and `package.json` (they should match)
-1. Get the API Key and API Secret for the extension
-1. Run the command `npm run self-sign -- --api-key={key} --api-secret={secret}`
-   - If it was successful, it will _fail_ with the error `The extension could not be signed`.
-   - Log into [https://addons.mozilla.org/en-US/developers/](https://addons.mozilla.org/en-US/developers/) and ensure that the latest version is the one you just published
-1. Run `npm run build` and there should be a new .zip file in `web-ext-artifacts` folder. Generally called `single-spa_inspector-{version}.zip`
-1. Upload it to [https://chrome.google.com/webstore/developer/dashboard](https://chrome.google.com/webstore/developer/dashboard)
+1. Ensure that the necessary Firefox env values are in your local .env
+
+   ```
+   WEXT_SHIPIT_FIREFOX_JWT_ISSUER=xxxxx
+   WEXT_SHIPIT_FIREFOX_JWT_SECRET=xxxxx
+   ```
+
+1. Ensure that the necessary Chrome env values are in your local .env
+
+   ```sh
+   WEXT_SHIPIT_CHROME_EXTENSION_ID=xxxxx
+   WEXT_SHIPIT_CHROME_CLIENT_ID=xxxxx
+   WEXT_SHIPIT_CHROME_CLIENT_SECRET=xxxxx
+   WEXT_SHIPIT_CHROME_REFRESH_TOKEN=xxxxx
+   ```
+
+1. Run `npm run deploy`
+
+- Alternatively, to deploy individual browsers you can run `npm run deploy:firefox` or `npm run deploy:chrome`
 
 ---
 
