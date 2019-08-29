@@ -112,6 +112,10 @@ Once single-spa Inspector is running, open a new tab and navigate to [about:debu
    WEXT_SHIPIT_CHROME_REFRESH_TOKEN=xxxxx
    ```
 
+1. Run `npx patch-package` due to an import bug in @wext/shipit that we have patched locally
+
+- this would need to be run after every `npm install`
+
 1. Run `npm run deploy`
 
 - Alternatively, to deploy individual browsers you can run `npm run deploy:firefox` or `npm run deploy:chrome`
