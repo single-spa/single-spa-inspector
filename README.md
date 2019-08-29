@@ -116,6 +116,11 @@ Once single-spa Inspector is running, open a new tab and navigate to [about:debu
 
 - Alternatively, to deploy individual browsers you can run `npm run deploy:firefox` or `npm run deploy:chrome`
 
+You may also want to verify the status at the respective extensions page
+
+- [Firefox Add-on Developer Hub](https://addons.mozilla.org/en-US/developers/)
+- [Chrome Store Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard)
+
 ---
 
 ## Thanks
