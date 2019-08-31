@@ -24,7 +24,9 @@ export function setupOverlayHelpers() {
       }
       node
         .querySelectorAll(`.${overlayDivClassName}`)
-        .forEach(overlayElem => overlayElem.parentNode.removeChild(overlayElem));
+        .forEach(overlayElem =>
+          overlayElem.parentNode.removeChild(overlayElem)
+        );
     });
   }
 
@@ -69,12 +71,12 @@ export function setupOverlayHelpers() {
         class="${className}"
         style="
           background: ${backgroundColor};
-          height: ${options.height || element.clientHeight + "px"};
-          left: ${options.left || element.offsetLeft + "px"};
+          height: ${options.height || node.clientHeight + "px"};
+          left: ${options.left || node.offsetLeft + "px"};
           pointer-events: none;
           position: ${options.position || "absolute"};
-          top: ${options.top || element.offsetTop + "px"};
-          width: ${options.width || element.clientWidth + "px"};
+          top: ${options.top || node.offsetTop + "px"};
+          width: ${options.width || node.clientWidth + "px"};
           z-index: ${options.zIndex || 40};
         "
       >
@@ -84,7 +86,7 @@ export function setupOverlayHelpers() {
             options.textColor ||
             getColorFromString(appName, 1)};
           display: flex;
-          flex-direction: ${element.clientHeight > 80 ? "column" : "row"};
+          flex-direction: ${node.clientHeight > 80 ? "column" : "row"};
           font-size: 2rem;
           font-weight: bold;
           height: 100%;
