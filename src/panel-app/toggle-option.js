@@ -23,20 +23,21 @@ const css = `
   font-size: .75rem;
   margin-right: 2px;
   padding: .25rem 0.5rem .125rem;
+  transition: background .15s ease-in-out;
 }
 
 & .toggle-option:focus-within {
-  outline: 2px solid var(--light-blue);
+  outline: 2px solid var(--blue-light);
 }
 
 & .toggle-option:first-of-type {
-  border-top-left-radius: 2rem;
-  border-bottom-left-radius: 2rem;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 
 & .toggle-option:last-of-type {
-  border-top-right-radius: 2rem;
-  border-bottom-right-radius: 2rem;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 & .toggle-option.active {
