@@ -3,14 +3,18 @@
   "version": "0.4.1",
   "description": "A devtools extension for single-spa applications",
   "scripts": {
-    "build": "npm run webpack-build && npm run lint && web-ext build",
+    "prebuild": "npm run webpack-build && npm run lint",
+    "build": "web-ext build",
     "lint": "web-ext lint",
     "start": "concurrently --kill-others-on-fail --names \"EXT,WPK\" -c \"cyan,magenta\" \"npm:start:firefox\" \"webpack --watch\"",
     "start:firefox": "web-ext run --keep-profile-changes --firefox-profile=single-spa-inspector-dev",
     "start:firefoxdev": "npm run start:firefox -- --firefox=firefoxdeveloperedition",
     "self-sign": "npm run webpack-build && npm run lint && web-ext sign",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack-build": "webpack --mode=production"
+    "webpack-build": "webpack --mode=production",
+    "deploy": "npm run deploy:firefox && npm run deploy:chrome",
+    "deploy:firefox": "npm run prebuild && shipit firefox .",
+    "deploy:chrome": "npm run build -- --overwrite-dest && shipit chrome web-ext-artifacts/single-spa_inspector-$npm_package_version.zip"
   },
   "keywords": [
     "single-spa",
@@ -25,6 +29,7 @@
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
+    "@wext/shipit": "^0.2.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "concurrently": "^4.1.1",

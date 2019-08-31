@@ -3,3 +3,5 @@ build
 web-ext-artifacts
 # prefer package-lock.json
 yarn.lock
+# "Keep it secret. Keep it safe." - Galdalf the Grey
+.env*
