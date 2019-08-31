@@ -4,6 +4,8 @@ import AppStatusOverride from "./app-status-override.component";
 import Button from "./button";
 import { evalDevtoolsCmd } from "../inspected-window.helper.js";
 import useImportMapOverrides from "./useImportMapOverrides";
+import ToggleGroup from "./toggle-group";
+import ToggleOption from "./toggle-option";
 
 const OFF = "off",
   ON = "on",
@@ -18,7 +20,7 @@ export default function Apps(props) {
     [props.apps]
   );
   const [hovered, setHovered] = useState();
-  const [overlaysEnabled, setOverlaysEnabled] = useState("off");
+  const [overlaysEnabled, setOverlaysEnabled] = useState(OFF);
 
   useEffect(() => {
     if (overlaysEnabled === LIST && hovered) {
@@ -43,17 +45,16 @@ export default function Apps(props) {
     <Scoped css={css}>
       <span>
         <div>
-          <label htmlFor="overlayEnabledSelect">Overlays: </label>
-          <select
-            id="overlayEnabledSelect"
+          <ToggleGroup
+            name="overlaysDisplayOption"
             value={overlaysEnabled}
             onChange={e => setOverlaysEnabled(e.target.value)}
           >
-            <option value={OFF}>Off</option>
-            <option value={ON}>On</option>
-            <option value={LIST}>On list hover</option>
-            <option value={PAGE}>On page hover</option>
-          </select>
+            <legend style={{ display: "inline" }}>Overlays</legend>
+            <ToggleOption value={OFF}>Off</ToggleOption>
+            <ToggleOption value={ON}>On</ToggleOption>
+            <ToggleOption value={LIST}>List Hover</ToggleOption>
+          </ToggleGroup>
         </div>
         <div role="table" className={"table"}>
           <div role="row">
@@ -64,7 +65,7 @@ export default function Apps(props) {
               <span role="columnheader">Import Override</span>
             )}
           </div>
-          {sortedApps.concat(otherApps).map(app => (
+          {sortedApps.map(app => (
             <div
               role="row"
               key={app.name}
@@ -88,9 +89,7 @@ export default function Apps(props) {
                 <div role="cell">
                   <input
                     className={always("import-override")}
-                    aria-label={`Input an import-map override url for ${
-                      app.name
-                    }`}
+                    aria-label={`Input an import-map override url for ${app.name}`}
                     value={importMaps.overrides[app.name] || ""}
                     onChange={e => {
                       importMaps.setOverride(app.name, e.target.value);
