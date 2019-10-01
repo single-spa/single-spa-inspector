@@ -66,17 +66,19 @@ export function setupOverlayHelpers() {
     } else {
       backgroundColor = getColorFromString(appName);
     }
+
+    const { height, left, top, width } = node.getBoundingClientRect();
     const domStr = `
       <div
         class="${className}"
         style="
           background: ${backgroundColor};
-          height: ${options.height || node.clientHeight + "px"};
-          left: ${options.left || node.offsetLeft + "px"};
+          height: ${options.height || height + "px"};
+          left: ${options.left || left + "px"};
           pointer-events: none;
           position: ${options.position || "absolute"};
-          top: ${options.top || node.offsetTop + "px"};
-          width: ${options.width || node.clientWidth + "px"};
+          top: ${options.top || top + "px"};
+          width: ${options.width || width + "px"};
           z-index: ${options.zIndex || 40};
         "
       >
