@@ -4,30 +4,58 @@ import AppStatusOverride from "./app-status-override.component";
 import Button from "./button";
 import { evalDevtoolsCmd } from "../inspected-window.helper.js";
 import useImportMapOverrides from "./useImportMapOverrides";
+import ToggleGroup from "./toggle-group";
+import ToggleOption from "./toggle-option";
+
+const OFF = "off",
+  ON = "on",
+  LIST = "list",
+  PAGE = "page";
 
 export default function Apps(props) {
   const sortedApps = useMemo(() => sortApps(props.apps), [props.apps]);
   const importMaps = useImportMapOverrides();
-
+  const { mounted: mountedApps, other: otherApps } = useMemo(
+    () => groupApps(props.apps),
+    [props.apps]
+  );
   const [hovered, setHovered] = useState();
+  const [overlaysEnabled, setOverlaysEnabled] = useState(OFF);
 
   useEffect(() => {
-    if (hovered) {
+    if (overlaysEnabled === LIST && hovered) {
       overlayApp(hovered);
-      return () => deOverlayApp(hovered);
+      return () => {
+        deOverlayApp(hovered);
+      };
     }
-  }, [hovered]);
+  }, [overlaysEnabled, hovered]);
 
   useEffect(() => {
-    document.body.classList.add(props.theme);
-    return () => {
-      document.body.classList.remove(props.theme);
-    };
-  }, [props.theme]);
+    if (overlaysEnabled === ON) {
+      mountedApps.forEach(app => overlayApp(app));
+      otherApps.forEach(app => deOverlayApp(app));
+      return () => {
+        mountedApps.forEach(app => deOverlayApp(app));
+      };
+    }
+  }, [overlaysEnabled, mountedApps, otherApps]);
 
   return (
     <Scoped css={css}>
       <span>
+        <div>
+          <ToggleGroup
+            name="overlaysDisplayOption"
+            value={overlaysEnabled}
+            onChange={e => setOverlaysEnabled(e.target.value)}
+          >
+            <legend style={{ display: "inline" }}>Overlays</legend>
+            <ToggleOption value={OFF}>Off</ToggleOption>
+            <ToggleOption value={ON}>On</ToggleOption>
+            <ToggleOption value={LIST}>List Hover</ToggleOption>
+          </ToggleGroup>
+        </div>
         <div role="table" className={"table"}>
           <div role="row">
             <span role="columnheader">App Name</span>
@@ -61,9 +89,7 @@ export default function Apps(props) {
                 <div role="cell">
                   <input
                     className={always("import-override")}
-                    aria-label={`Input an import-map override url for ${
-                      app.name
-                    }`}
+                    aria-label={`Input an import-map override url for ${app.name}`}
                     value={importMaps.overrides[app.name] || ""}
                     onChange={e => {
                       importMaps.setOverride(app.name, e.target.value);
@@ -103,18 +129,28 @@ function sortApps(apps) {
       return 0;
     })
     .sort((a, b) => {
-      const statusA =
-        a.status === "MOUNTED" || !!a.devtools.activeWhenForced ? 1 : 0;
-      const statusB =
-        b.status === "MOUNTED" || !!b.devtools.activeWhenForced ? 1 : 0;
-      if (statusA > statusB) {
-        return -1;
-      } else if (statusA < statusB) {
-        return 1;
-      } else {
-        return 0;
-      }
+      const statusA = a.status === "MOUNTED" || !!a.devtools.activeWhenForced;
+      const statusB = b.status === "MOUNTED" || !!b.devtools.activeWhenForced;
+      return statusA - statusB;
     });
+}
+
+function groupApps(apps) {
+  const [mounted, other] = apps.reduce(
+    (list, app) => {
+      const group =
+        app.status === "MOUNTED" || !!app.devtools.activeWhenForced ? 0 : 1;
+      list[group].push(app);
+      return list;
+    },
+    [[], []]
+  );
+  mounted.sort((a, b) => a.name.localeCompare(b.name));
+  other.sort((a, b) => a.name.localeCompare(b.name));
+  return {
+    mounted,
+    other
+  };
 }
 
 function overlayApp(app) {

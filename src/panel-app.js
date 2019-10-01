@@ -23,6 +23,13 @@ function PanelRoot(props) {
   }, []);
 
   useEffect(() => {
+    document.body.classList.add(props.theme);
+    return () => {
+      document.body.classList.remove(props.theme);
+    };
+  }, [props.theme]);
+
+  useEffect(() => {
     const boundEvtListener = contentScriptListener.bind(null, setApps);
     window.addEventListener("ext-content-script", boundEvtListener);
 
