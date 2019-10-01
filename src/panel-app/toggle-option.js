@@ -19,6 +19,7 @@ export default function ToggleOption(props) {
 const css = `
 & .toggle-option {
   background: var(--blue);
+  color: #fff;
   cursor: pointer;
   font-size: .75rem;
   margin-right: 2px;
