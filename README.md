@@ -77,7 +77,9 @@ If you would like to request a feature to be added, please open an issue with th
 
 To fix a bug, add features, or just build the extension locally:
 
-1. Install Firefox (Chrome support coming)
+### Firefox
+
+1. Install Firefox
 1. [Create a FF profile](#create-a-firefox-dev-profile) called `single-spa-inspector-dev`
 1. Clone this repo
 1. `nvm use` (ensures we're all using the same version of node)
@@ -85,13 +87,44 @@ To fix a bug, add features, or just build the extension locally:
 1. `npm start`
 1. Open devtools and navigate to the **single-spa Inspector** tab
 
-### Create a Firefox dev profile
+#### Create a Firefox dev profile
 
 Currently, development happens by default in Firefox. If you would like Firefox to remember any settings that you change to Firefox itself, this project is configured to use a profile called "single-spa-inspector-dev". To create this profile, go to [about:profiles](about:profiles). Firefox will use that profile and remember any changes you make (e.g. devtools location, devtools dark mode, etc.)
 
-### Debugging
+#### Debugging
 
 Once single-spa Inspector is running, open a new tab and navigate to [about:debugging](about:debugging). single-spa Inspector should be listed as a Temporary Extension, and a "Debug" control should be displayed. Click on this to enable devtools for the extension. In the upper-right corner, click on the divided square icon next to the 3-dot menu, and select `/build/panel.html` as the target. You can now inspect the inspector UI as you would a normal webpage.
+
+## Chrome
+
+1. Install Chrome
+1. Create a Chrome profile
+
+   - This process is somewhat convoluted but needed in order to save preferences and any additional extensions
+   - Before starting any processes, open the Chrome Profiles directory
+     - Mac: `~/Library/Application Support/Google/Chrome`
+     - Windows: `%LOCALAPPDATA%\Google\Chrome\User Data`
+     - See the [Chromium User Data Directory docs](https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md) for other platforms/chrome builds
+   - In that folder, take note of the Profile folders (eg. named "Profile 1", "Profile 2", etc. on Mac)
+   - Open Chrome and create a new profile
+   - Return to the Chrome user data folder and locate the newly created Profile folder
+   - Rename the folder to "single-spa-inpsector-dev" (for convenience)
+   - Copy the file path for this profile folder
+
+1. Start Chrome with `$CHROME_PROFILE_PATH` env set to the profile folder path
+
+   ```sh
+   # for Mac
+   CHROME_PROFILE_PATH="~/Library/Application Support/Google/Chrome/single-spa-inspector-dev" npm run start:chrome
+   ```
+
+#### Debugging
+
+- Open single-spa inspector in devtools
+- Right-click on any element inside of the inspector, and click "Inspect"
+- A new instance of devtools will appear to inspect the devtools DOM
+
+---
 
 ### Publishing a New Version
 
