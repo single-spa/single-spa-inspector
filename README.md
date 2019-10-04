@@ -108,7 +108,7 @@ Once single-spa Inspector is running, open a new tab and navigate to [about:debu
    - In that folder, take note of the Profile folders (eg. named "Profile 1", "Profile 2", etc. on Mac)
    - Open Chrome and create a new profile
    - Return to the Chrome user data folder and locate the newly created Profile folder
-   - Rename the folder to "single-spa-inpsector-dev" (for convenience)
+   - Rename the folder to "single-spa-inspector-dev" (for convenience)
    - Copy the file path for this profile folder
 
 1. Start Chrome with `$CHROME_PROFILE_PATH` env set to the profile folder path
