@@ -6,7 +6,7 @@
     "prebuild": "npm run webpack-build && npm run lint",
     "build": "web-ext build",
     "lint": "web-ext lint",
-    "start": "concurrently --kill-others-on-fail --names \"EXT,WPK\" -c \"cyan,magenta\" \"npm:start:firefox\" \"webpack --watch\"",
+    "start": "concurrently --kill-others-on-fail -s \"first\" --names \"EXT,WPK\" -c \"cyan,magenta\" \"npm:start:firefox\" \"webpack --watch\"",
     "start:firefox": "web-ext run --keep-profile-changes --firefox-profile=single-spa-inspector-dev",
     "start:firefoxdev": "npm run start:firefox -- --firefox=firefoxdeveloperedition",
     "self-sign": "npm run webpack-build && npm run lint && web-ext sign",
