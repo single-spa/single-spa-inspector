@@ -95,7 +95,7 @@ Currently, development happens by default in Firefox. If you would like Firefox 
 
 Once single-spa Inspector is running, open a new tab and navigate to [about:debugging](about:debugging). single-spa Inspector should be listed as a Temporary Extension, and a "Debug" control should be displayed. Click on this to enable devtools for the extension. In the upper-right corner, click on the divided square icon next to the 3-dot menu, and select `/build/panel.html` as the target. You can now inspect the inspector UI as you would a normal webpage.
 
-## Chrome
+### Chrome
 
 1. Install Chrome
 1. Create a Chrome profile
@@ -106,7 +106,7 @@ Once single-spa Inspector is running, open a new tab and navigate to [about:debu
      - Windows: `%LOCALAPPDATA%\Google\Chrome\User Data`
      - See the [Chromium User Data Directory docs](https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md) for other platforms/chrome builds
    - In that folder, take note of the Profile folders (eg. named "Profile 1", "Profile 2", etc. on Mac)
-   - Open Chrome and create a new profile
+   - Open Chrome and [add a new profile](https://support.google.com/chrome/answer/2364824)
    - Return to the Chrome user data folder and locate the newly created Profile folder
    - Rename the folder to "single-spa-inspector-dev" (for convenience)
    - Copy the file path for this profile folder
