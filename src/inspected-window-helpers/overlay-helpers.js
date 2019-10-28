@@ -72,6 +72,7 @@ export function setupOverlayHelpers() {
     }
 
     let backgroundColor;
+    const hexRegex = /^#[A-Fa-f0-9]{6}$/g;
     if (options.color && hexRegex.test(options.color)) {
       backgroundColor = getRGBAFromHex(options.color.replace("#", ""));
     } else if (options.background) {
