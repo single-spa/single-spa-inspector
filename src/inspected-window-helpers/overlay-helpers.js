@@ -4,30 +4,35 @@ export function setupOverlayHelpers() {
   window.__SINGLE_SPA_DEVTOOLS__.overlay = setOverlaysOnApp;
   window.__SINGLE_SPA_DEVTOOLS__.removeOverlay = removeOverlaysFromApp;
 
+  const currentAppOverlay = {};
+
+  const RO = new ResizeObserver(() => {
+    // Redraw all overlays since we can't know which layout changes could affect other elements
+    Object.entries(currentAppOverlay).forEach(([appName, activeAppOption]) => {
+      activeAppOption.nodes.forEach(node => {
+        createOverlayWithText(node, activeAppOption.options, appName);
+      });
+    });
+  });
+
   // executed when you want to show the overlay
   function setOverlaysOnApp(appName) {
-    const app = getAppByName(appName);
-    const { options, nodes } = getOverlayNodesAndOptions(app);
-
-    nodes.forEach(node => {
-      createOverlayWithText(node, options, appName);
+    const appOverlays = getOverlayNodesAndOptions(getAppByName(appName));
+    currentAppOverlay[appName] = appOverlays;
+    appOverlays.nodes.forEach(node => {
+      RO.observe(node);
     });
   }
 
   // executed when you want to remove the overlay
   function removeOverlaysFromApp(appName) {
-    const app = getAppByName(appName);
-    const { nodes } = getOverlayNodesAndOptions(app);
-    nodes.forEach(node => {
-      if (!node) {
-        return null;
-      }
+    currentAppOverlay[appName].nodes.forEach(node => {
       node
         .querySelectorAll(`.${overlayDivClassName}`)
-        .forEach(overlayElem =>
-          overlayElem.parentNode.removeChild(overlayElem)
-        );
+        .forEach(overlayElem => node.removeChild(overlayElem));
+      RO.unobserve(node);
     });
+    delete currentAppOverlay[appName];
   }
 
   // everything after this are helper functions
@@ -49,16 +54,24 @@ export function setupOverlayHelpers() {
     if (!node) {
       return null;
     }
-    const className = `${overlayDivClassName} ${(options.classes || []).join(
-      " "
-    )}`;
-    const existingOverlayDiv = node.querySelector(`.${overlayDivClassName}`);
-    if (existingOverlayDiv) {
-      return existingOverlayDiv;
+
+    const { height, left, top, width } = node.getBoundingClientRect();
+    const existingOverlay = node.querySelector(`.${overlayDivClassName}`);
+
+    if (existingOverlay) {
+      const existingOverlayRect = existingOverlay.getBoundingClientRect();
+      if (
+        existingOverlayRect.height === height &&
+        existingOverlayRect.left === left &&
+        existingOverlayRect.top === top &&
+        existingOverlayRect.width === width
+      ) {
+        // short circuit if size and position hasn't changed
+        return null;
+      }
     }
-    // setup main overlay div
+
     let backgroundColor;
-    const hexRegex = /^#[A-Fa-f0-9]{6}$/g;
     if (options.color && hexRegex.test(options.color)) {
       backgroundColor = getRGBAFromHex(options.color.replace("#", ""));
     } else if (options.background) {
@@ -67,7 +80,11 @@ export function setupOverlayHelpers() {
       backgroundColor = getColorFromString(appName);
     }
 
-    const { height, left, top, width } = node.getBoundingClientRect();
+    const className = `${overlayDivClassName} ${(options.classes || []).join(
+      " "
+    )}`;
+
+    // setup main overlay div
     const domStr = `
       <div
         class="${className}"
@@ -105,7 +122,10 @@ export function setupOverlayHelpers() {
     `;
     const overlayEl = new DOMParser().parseFromString(domStr, "text/html").body
       .firstChild;
-    return node.appendChild(overlayEl);
+
+    existingOverlay
+      ? node.replaceChild(overlayEl, existingOverlay)
+      : node.appendChild(overlayEl);
   }
 
   function getColorFromString(string, opacity = 0.4) {
