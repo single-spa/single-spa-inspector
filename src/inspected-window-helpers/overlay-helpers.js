@@ -4,35 +4,35 @@ export function setupOverlayHelpers() {
   window.__SINGLE_SPA_DEVTOOLS__.overlay = setOverlaysOnApp;
   window.__SINGLE_SPA_DEVTOOLS__.removeOverlay = removeOverlaysFromApp;
 
-  const currentAppOverlay = {};
+  const overlaysConfigMap = {};
 
   const RO = new ResizeObserver(() => {
     // Redraw all overlays since we can't know which layout changes could affect other elements
-    Object.entries(currentAppOverlay).forEach(([appName, activeAppOption]) => {
-      activeAppOption.nodes.forEach(node => {
-        createOverlayWithText(node, activeAppOption.options, appName);
+    Object.entries(overlaysConfigMap).forEach(([appName, overlayConfig]) => {
+      overlayConfig.nodes.forEach(node => {
+        createOverlayWithText(node, overlayConfig.options, appName);
       });
     });
   });
 
   // executed when you want to show the overlay
   function setOverlaysOnApp(appName) {
-    const appOverlays = getOverlayNodesAndOptions(getAppByName(appName));
-    currentAppOverlay[appName] = appOverlays;
-    appOverlays.nodes.forEach(node => {
+    const overlaysConfig = getOverlayNodesAndOptions(getAppByName(appName));
+    overlaysConfigMap[appName] = overlaysConfig;
+    overlaysConfig.nodes.forEach(node => {
       RO.observe(node);
     });
   }
 
   // executed when you want to remove the overlay
   function removeOverlaysFromApp(appName) {
-    currentAppOverlay[appName].nodes.forEach(node => {
+    overlaysConfigMap[appName].nodes.forEach(node => {
       node
         .querySelectorAll(`.${overlayDivClassName}`)
         .forEach(overlayElem => node.removeChild(overlayElem));
       RO.unobserve(node);
     });
-    delete currentAppOverlay[appName];
+    delete overlaysConfigMap[appName];
   }
 
   // everything after this are helper functions
