@@ -131,7 +131,7 @@ function sortApps(apps) {
     .sort((a, b) => {
       const statusA = a.status === "MOUNTED" || !!a.devtools.activeWhenForced;
       const statusB = b.status === "MOUNTED" || !!b.devtools.activeWhenForced;
-      return statusA - statusB;
+      return statusB - statusA;
     });
 }
 
