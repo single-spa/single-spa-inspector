@@ -4,7 +4,7 @@
   "short_name": "sspa Inspect",
   "version": "0.5.0",
   "author": "Anthony Frehner",
-  "homepage_url": "https://github.com/CanopyTax/single-spa-inspector",
+  "homepage_url": "https://github.com/single-spa/single-spa-inspector",
   "description": "A devtools panel for single-spa applications",
   "browser_action": {
     "default_icon": "./logo-white-bgblue.png",
