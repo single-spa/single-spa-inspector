@@ -20,9 +20,9 @@ export function setupMountAndUnmount() {
       toLoadPromise,
       toBootstrapPromise,
       NOT_LOADED,
-      reroute
+      reroute,
     } = window.__SINGLE_SPA_DEVTOOLS__.exposedMethods;
-    const app = getRawAppData().find(rawapp => rawapp.name === appName);
+    const app = getRawAppData().find((rawapp) => rawapp.name === appName);
 
     if (!app.devtools.activeWhenBackup) {
       // only set the backup when there isn't one already. otherwise you could potentilaly overwrite it with "always on" or "always off"
@@ -37,11 +37,9 @@ export function setupMountAndUnmount() {
       toLoadPromise(app)
         .then(() => toBootstrapPromise(app))
         .then(() => reroute())
-        .catch(err => {
+        .catch((err) => {
           console.error(
-            `Something failed in the process of loading and bootstrapping your force mounted app (${
-              app.name
-            }):`,
+            `Something failed in the process of loading and bootstrapping your force mounted app (${app.name}):`,
             err
           );
           throw err;
@@ -53,7 +51,7 @@ export function setupMountAndUnmount() {
 
   function getAppByName(appName) {
     const { getRawAppData } = window.__SINGLE_SPA_DEVTOOLS__.exposedMethods;
-    return getRawAppData().find(rawApp => rawApp.name === appName);
+    return getRawAppData().find((rawApp) => rawApp.name === appName);
   }
 
   window.__SINGLE_SPA_DEVTOOLS__.forceUnmount = forceUnmount;

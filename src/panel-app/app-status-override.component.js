@@ -9,7 +9,7 @@ export default function AppStatusOverride(props) {
     if (state.running) {
       evalDevtoolsCmd(
         `${typeToCommand[state.runType]}("${props.app.name}")`
-      ).catch(err => {
+      ).catch((err) => {
         console.error(`Error in app-status-override useEffect`);
         throw err;
       });
@@ -38,7 +38,7 @@ export default function AppStatusOverride(props) {
 const typeToCommand = {
   on: "forceMount",
   off: "forceUnmount",
-  reset: "revertForceMountUnmount"
+  reset: "revertForceMountUnmount",
 };
 
 const inititalState = { running: false, runType: null };
@@ -47,18 +47,18 @@ function reducer(state, action) {
     case "on":
       return {
         running: true,
-        runType: "on"
+        runType: "on",
       };
     case "off":
       return {
         running: true,
-        runType: "off"
+        runType: "off",
       };
 
     default:
       return {
         running: true,
-        runType: "reset"
+        runType: "reset",
       };
   }
 }

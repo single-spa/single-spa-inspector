@@ -57,7 +57,7 @@ async function getApps(setAppsFn) {
 
 function contentScriptListener(setApps, msg) {
   if (msg.detail.from === "single-spa" && msg.detail.type === "routing-event") {
-    getApps(setApps).catch(err => {
+    getApps(setApps).catch((err) => {
       console.error("error in getting apps after update event");
       throw err;
     });

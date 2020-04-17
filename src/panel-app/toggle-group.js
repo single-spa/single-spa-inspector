@@ -10,12 +10,12 @@ export default function ToggleGroup(props) {
     <fieldset {...styles} {...rest}>
       {/* div to fix Chrome not rendering fieldsets as flex containers */}
       <div>
-        {React.Children.map(children, child => {
+        {React.Children.map(children, (child) => {
           return child.type === ToggleOption
             ? React.cloneElement(child, {
                 onChange,
                 name,
-                checked: child.props.value === value
+                checked: child.props.value === value,
               })
             : child;
         })}

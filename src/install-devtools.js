@@ -2,6 +2,6 @@
 export function installDevtools() {
   if (window.__SINGLE_SPA_DEVTOOLS__) return;
   Object.defineProperty(window, "__SINGLE_SPA_DEVTOOLS__", {
-    value: {}
+    value: {},
   });
 }
