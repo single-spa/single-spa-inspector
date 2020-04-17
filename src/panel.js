@@ -1,6 +1,6 @@
 import browser from "webextension-polyfill";
 
-createPanel().catch(err => {
+createPanel().catch((err) => {
   console.error("Something happened in createPanel()");
   throw err;
 });
@@ -14,11 +14,11 @@ async function createPanel() {
     "/build/panel.html"
   );
 
-  panel.onShown.addListener(panelWindow => {
+  panel.onShown.addListener((panelWindow) => {
     portToBackground = browser.runtime.connect({ name: "panel-devtools" });
-    portToBackground.onMessage.addListener(msg => {
+    portToBackground.onMessage.addListener((msg) => {
       const custEvent = new CustomEvent("ext-content-script", {
-        detail: msg
+        detail: msg,
       });
       panelWindow.dispatchEvent(custEvent);
     });

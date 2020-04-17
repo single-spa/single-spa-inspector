@@ -10,7 +10,7 @@ addStringifyableScript(setupOverlayHelpers);
 window.addEventListener("single-spa:routing-event", () => {
   browser.runtime.sendMessage({
     from: "single-spa",
-    type: "routing-event"
+    type: "routing-event",
   });
 });
 

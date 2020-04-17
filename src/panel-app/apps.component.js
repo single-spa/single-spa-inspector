@@ -33,10 +33,10 @@ export default function Apps(props) {
 
   useEffect(() => {
     if (overlaysEnabled === ON) {
-      mountedApps.forEach(app => overlayApp(app));
-      otherApps.forEach(app => deOverlayApp(app));
+      mountedApps.forEach((app) => overlayApp(app));
+      otherApps.forEach((app) => deOverlayApp(app));
       return () => {
-        mountedApps.forEach(app => deOverlayApp(app));
+        mountedApps.forEach((app) => deOverlayApp(app));
       };
     }
   }, [overlaysEnabled, mountedApps, otherApps]);
@@ -48,7 +48,7 @@ export default function Apps(props) {
           <ToggleGroup
             name="overlaysDisplayOption"
             value={overlaysEnabled}
-            onChange={e => setOverlaysEnabled(e.target.value)}
+            onChange={(e) => setOverlaysEnabled(e.target.value)}
           >
             <legend style={{ display: "inline" }}>Overlays</legend>
             <ToggleOption value={OFF}>Off</ToggleOption>
@@ -65,7 +65,7 @@ export default function Apps(props) {
               <span role="columnheader">Import Override</span>
             )}
           </div>
-          {sortedApps.map(app => (
+          {sortedApps.map((app) => (
             <div
               role="row"
               key={app.name}
@@ -91,7 +91,7 @@ export default function Apps(props) {
                     className={always("import-override")}
                     aria-label={`Input an import-map override url for ${app.name}`}
                     value={importMaps.overrides[app.name] || ""}
-                    onChange={e => {
+                    onChange={(e) => {
                       importMaps.setOverride(app.name, e.target.value);
                     }}
                   />
@@ -149,7 +149,7 @@ function groupApps(apps) {
   other.sort((a, b) => a.name.localeCompare(b.name));
   return {
     mounted,
-    other
+    other,
   };
 }
 
@@ -160,7 +160,7 @@ function overlayApp(app) {
     app.devtools &&
     app.devtools.overlays
   ) {
-    evalDevtoolsCmd(`overlay('${app.name}')`).catch(err => {
+    evalDevtoolsCmd(`overlay('${app.name}')`).catch((err) => {
       console.error(`Error overlaying applicaton: ${app.name}`, err);
     });
   }
@@ -168,7 +168,7 @@ function overlayApp(app) {
 
 function deOverlayApp(app) {
   if (app.devtools && app.devtools.overlays) {
-    evalDevtoolsCmd(`removeOverlay('${app.name}')`).catch(err => {
+    evalDevtoolsCmd(`removeOverlay('${app.name}')`).catch((err) => {
       console.error(`Error removing overlay on applicaton: ${app.name}`, err);
     });
   }

@@ -90,7 +90,7 @@ export default function useImportMapOverrides() {
   const setOverride = (mapping, url) => {
     const newOverrides = {
       ...overrides,
-      [mapping]: url
+      [mapping]: url,
     };
     setOverrides(newOverrides);
   };
@@ -99,6 +99,6 @@ export default function useImportMapOverrides() {
     enabled: importMapsEnabled,
     overrides,
     setOverride,
-    commitOverrides: batchSetOverrides
+    commitOverrides: batchSetOverrides,
   };
 }

@@ -17,7 +17,7 @@ export default class ErrorBoundary extends React.Component {
       return (
         <div
           style={{
-            padding: "16px"
+            padding: "16px",
           }}
         >
           <h1>single-spa Inspector broke!</h1>
