@@ -130,9 +130,14 @@ export function setupOverlayHelpers() {
   }
 
   function getColorFromString(string, opacity = 0.4) {
+    const cleanStr = string
+      .split("")
+      .map(l => (/[^0-9a-z]/gi.test(l) ? l.charCodeAt(0) : l)) // replace non-ascii with charCode integer
+      .join("");
+
     const raw = (
       parseInt(
-        parseInt(string, 36)
+        parseInt(cleanStr, 36)
           .toExponential()
           .slice(2, -5),
         10
