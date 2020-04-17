@@ -16,7 +16,8 @@
     "webpack-build": "webpack --mode=production",
     "deploy": "npm run deploy:firefox && npm run deploy:chrome",
     "deploy:firefox": "npm run prebuild && shipit firefox .",
-    "deploy:chrome": "npm run build -- --overwrite-dest && shipit chrome web-ext-artifacts/single-spa_inspector-$npm_package_version.zip"
+    "deploy:chrome": "npm run build -- --overwrite-dest && shipit chrome web-ext-artifacts/single-spa_inspector-$npm_package_version.zip",
+    "format": "prettier src/ --write"
   },
   "keywords": [
     "single-spa",
