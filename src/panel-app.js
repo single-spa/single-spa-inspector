@@ -4,6 +4,9 @@ import { evalDevtoolsCmd } from "./inspected-window.helper";
 import browser from "webextension-polyfill";
 import Apps from "./panel-app/apps.component";
 import ErrorBoundary from "./panel-app/ErrorBoundary.component";
+import Profiler from "./profiler/profiler.js";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
+import "@reach/tabs/styles.css";
 
 function PanelRoot(props) {
   const [apps, setApps] = useState();
@@ -47,7 +50,25 @@ function PanelRoot(props) {
       </div>
     );
 
-  return <Apps apps={apps} theme={props.theme} />;
+  return (
+    <>
+      <Tabs>
+        <TabList>
+          <Tab>Applications</Tab>
+          <Tab>Profiler</Tab>
+        </TabList>
+
+        <TabPanels style={{ marginTop: "16px" }}>
+          <TabPanel>
+            <Apps apps={apps} theme={props.theme} />
+          </TabPanel>
+          <TabPanel>
+            <Profiler />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </>
+  );
 }
 
 async function getApps(setAppsFn) {
