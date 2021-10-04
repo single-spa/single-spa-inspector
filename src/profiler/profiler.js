@@ -31,7 +31,7 @@ export default function Profiler() {
       <thead>
         <tr>
           <th>Event Type</th>
-          <th>App / Parcel</th>
+          <th>Name</th>
           <th>Kind</th>
           <th>Succeeded</th>
           <th>Start</th>
