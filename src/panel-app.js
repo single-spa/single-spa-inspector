@@ -8,6 +8,8 @@ import Profiler from "./profiler/profiler.js";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import "@reach/tabs/styles.css";
 
+console.log("HEREEE")
+
 function PanelRoot(props) {
   const [apps, setApps] = useState();
   const [appError, setAppError] = useState();
