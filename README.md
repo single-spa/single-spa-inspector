@@ -17,7 +17,7 @@ To fix a bug, add features, or just build the extension locally:
 ### Firefox
 
 1. Install Firefox
-1. [Create a FF profile](#create-a-firefox-dev-profile) called `single-spa-inspector-dev`
+1. [Create a FF profile](#create-a-firefox-dev-profile) called `single-spa-inspector-dev`. Alternatively, temporarily install the extension as documented in https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension#installing.
 1. Clone this repo
 1. `nvm use` (ensures we're all using the same version of node)
 1. `npm i`
