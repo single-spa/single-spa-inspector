@@ -14,7 +14,6 @@ export default function Profiler() {
     disabledTypes: [],
     search: "",
   });
-  const [showAdvancedFilters, setShowAdvancedFilters] = useState(true);
 
   useEffect(() => {
     evalDevtoolsCmd("exposedMethods.getProfilerData()")
@@ -97,31 +96,27 @@ export default function Profiler() {
               }
             />
           </label>
-          {showAdvancedFilters && (
-            <>
-              <div>
-                <div className="filter-header">Application</div>
-                {filterCheckbox("application", null, "load")}
-                {filterCheckbox("application", null, "bootstrap")}
-                {filterCheckbox("application", null, "mount")}
-                {filterCheckbox("application", null, "unmount")}
-              </div>
-              <div>
-                <div className="filter-header">Parcel</div>
-                {filterCheckbox("parcel", null, "update")}
-                {filterCheckbox("parcel", null, "bootstrap")}
-                {filterCheckbox("parcel", null, "mount")}
-                {filterCheckbox("parcel", null, "unmount")}
-              </div>
-              <div>
-                <div className="filter-header">Routing</div>
-                {filterCheckbox("routing", "loadApps")}
-                {filterCheckbox("routing", "unmountAndUnload")}
-                {filterCheckbox("routing", "loadAndMount")}
-                {filterCheckbox("routing", "navigationCanceled")}
-              </div>
-            </>
-          )}
+          <div>
+            <div className="filter-header">Application</div>
+            {filterCheckbox("application", null, "load")}
+            {filterCheckbox("application", null, "bootstrap")}
+            {filterCheckbox("application", null, "mount")}
+            {filterCheckbox("application", null, "unmount")}
+          </div>
+          <div>
+            <div className="filter-header">Parcel</div>
+            {filterCheckbox("parcel", null, "update")}
+            {filterCheckbox("parcel", null, "bootstrap")}
+            {filterCheckbox("parcel", null, "mount")}
+            {filterCheckbox("parcel", null, "unmount")}
+          </div>
+          <div>
+            <div className="filter-header">Routing</div>
+            {filterCheckbox("routing", "loadApps")}
+            {filterCheckbox("routing", "unmountAndUnload")}
+            {filterCheckbox("routing", "loadAndMount")}
+            {filterCheckbox("routing", "navigationCanceled")}
+          </div>
         </div>
         <div className="actions">
           <a href={csvUrl()} download="single-spa-profiling.csv">
