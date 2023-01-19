@@ -88,12 +88,7 @@ export default function Apps(props) {
                 <AppStatusOverride app={app} />
               </div>
               <div role="cell">
-                <AppOverrideEnabled
-                  appName={app.name}
-                  disabled={importMaps.disabledOverrides[app.name]}
-                  enable={importMaps.enableOverride}
-                  disable={importMaps.disableOverride}
-                />
+                <AppOverrideEnabled appName={app.name} />
               </div>
               {importMaps.enabled && (
                 <div role="cell">
@@ -220,15 +215,16 @@ body.dark {
 & [role="row"] {
   align-items: center;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 2fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 3fr;
   grid-column-gap: calc(var(--table-spacing) * 2);
 }
 
 & [role="row"] [role="cell"]:nth-child(1) { grid-area: 1 / 1 / 2 / 2; }
-& [role="row"] [role="cell"]:nth-child(2) { grid-area: 1 / 2 / 2 / 3; }
-& [role="row"] [role="cell"]:nth-child(3) { grid-area: 1 / 3 / 2 / 4; }
-& [role="row"] [role="cell"]:nth-child(4),
-& [role="row"] [role="cell"].summary-action { grid-area: 1 / 4 / 2 / 5; }
+& [role="row"] [role="cell"]:nth-child(2) { grid-area: 1 / 2 / 2 / 2; }
+& [role="row"] [role="cell"]:nth-child(3) { grid-area: 1 / 3 / 2 / 3; }
+& [role="row"] [role="cell"]:nth-child(4) { grid-area: 1 / 4 / 2 / 4; }
+& [role="row"] [role="cell"]:nth-child(5),
+& [role="row"] [role="cell"].summary-action { grid-area: 1 / 5 / 2 / 5; }
 
 & .app-status {
   border-radius: 1rem;

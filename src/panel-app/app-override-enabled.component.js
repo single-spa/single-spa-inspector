@@ -1,16 +1,20 @@
 import React from "react";
 import Button from "./button";
+import useActiveOverrides from "./useActiveOverrides";
 
-export default function AppOverrideEnabled({
-  appName,
-  disabled,
-  enable,
-  disable,
-}) {
+export default function AppOverrideEnabled({ appName }) {
+  const { activeOverrides, disableOverride, enableOverride } =
+    useActiveOverrides();
+  const isDisabled = activeOverrides[appName];
+
   return (
     <>
-      {disabled && <Button onClick={() => enable(appName)}>Enable</Button>}
-      {!disabled && <Button onClick={() => disable(appName)}>Disable</Button>}
+      {isDisabled && (
+        <Button onClick={() => enableOverride(appName)}>Enable</Button>
+      )}
+      {!isDisabled && (
+        <Button onClick={() => disableOverride(appName)}>Disable</Button>
+      )}
     </>
   );
 }
