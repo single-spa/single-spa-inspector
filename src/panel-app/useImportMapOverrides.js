@@ -4,6 +4,7 @@ import { evalCmd } from "../inspected-window.helper.js";
 export default function useImportMapOverrides() {
   const [importMapsEnabled, setImportMapEnabled] = useState(false);
   const [overrides, setOverrides] = useState({});
+  const [disabledOverrides, setDisabledOverrides] = useState({});
   const [appError, setAppError] = useState();
 
   if (appError) {
@@ -30,6 +31,23 @@ export default function useImportMapOverrides() {
       setOverrides(imports);
     } catch (err) {
       err.message = `Error during getImportMapOverrides. ${err.message}`;
+      setAppError(err);
+    }
+  }
+
+  async function getDisabledOverrides() {
+    try {
+      const disabledOverrides = await evalCmd(`(function() {
+        return window.importMapOverrides.getDisabledOverrides()
+      })()`);
+      const disabled = disabledOverrides.reduce(
+        (accum, current) => ({ ...accum, [current]: true }),
+        {}
+      );
+
+      setDisabledOverrides(disabled);
+    } catch (err) {
+      err.message = `Error during getDisabledOverrides. ${err.message}`;
       setAppError(err);
     }
   }
@@ -69,6 +87,37 @@ export default function useImportMapOverrides() {
     }
   }
 
+  async function disableOverride(currentMap) {
+    try {
+      await evalCmd(`(function() {
+        return window.importMapOverrides.disableOverride("${currentMap}")
+      })()`);
+      setDisabledOverrides((disabled) => ({ ...disabled, [currentMap]: true }));
+
+      await evalCmd(`window.location.reload()`);
+    } catch (err) {
+      err.message = `Error during disableOverride. ${err.message}`;
+      setAppError(err);
+    }
+  }
+
+  async function enableOverride(currentMap) {
+    try {
+      await evalCmd(`(function() {
+        return window.importMapOverrides.enableOverride("${currentMap}")
+      })()`);
+      setDisabledOverrides((disabled) => ({
+        ...disabled,
+        [currentMap]: false,
+      }));
+
+      await evalCmd(`window.location.reload()`);
+    } catch (err) {
+      err.message = `Error during enableOverride. ${err.message}`;
+      setAppError(err);
+    }
+  }
+
   // Get initial list of maps if they exist
   useEffect(() => {
     async function initImportMapsOverrides() {
@@ -76,6 +125,7 @@ export default function useImportMapOverrides() {
       if (hasImportMapsEnabled) {
         setImportMapEnabled(hasImportMapsEnabled);
         await getImportMapOverrides();
+        await getDisabledOverrides();
       }
     }
 
@@ -98,6 +148,9 @@ export default function useImportMapOverrides() {
   return {
     enabled: importMapsEnabled,
     overrides,
+    disabledOverrides,
+    enableOverride,
+    disableOverride,
     setOverride,
     commitOverrides: batchSetOverrides,
   };

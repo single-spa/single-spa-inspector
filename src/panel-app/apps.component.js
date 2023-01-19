@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Scoped, always } from "kremling";
 import AppStatusOverride from "./app-status-override.component";
+import AppOverrideEnabled from "./app-override-enabled.component";
 import Button from "./button";
 import { evalDevtoolsCmd } from "../inspected-window.helper.js";
 import useImportMapOverrides from "./useImportMapOverrides";
@@ -61,6 +62,7 @@ export default function Apps(props) {
             <span role="columnheader">App Name</span>
             <span role="columnheader">Status</span>
             <span role="columnheader">Actions</span>
+            <span role="columnheader">Active</span>
             {importMaps.enabled && (
               <span role="columnheader">Import Override</span>
             )}
@@ -84,6 +86,14 @@ export default function Apps(props) {
               </div>
               <div role="cell">
                 <AppStatusOverride app={app} />
+              </div>
+              <div role="cell">
+                <AppOverrideEnabled
+                  appName={app.name}
+                  disabled={importMaps.disabledOverrides[app.name]}
+                  enable={importMaps.enableOverride}
+                  disable={importMaps.disableOverride}
+                />
               </div>
               {importMaps.enabled && (
                 <div role="cell">
@@ -217,7 +227,7 @@ body.dark {
 & [role="row"] [role="cell"]:nth-child(1) { grid-area: 1 / 1 / 2 / 2; }
 & [role="row"] [role="cell"]:nth-child(2) { grid-area: 1 / 2 / 2 / 3; }
 & [role="row"] [role="cell"]:nth-child(3) { grid-area: 1 / 3 / 2 / 4; }
-& [role="row"] [role="cell"]:nth-child(4), 
+& [role="row"] [role="cell"]:nth-child(4),
 & [role="row"] [role="cell"].summary-action { grid-area: 1 / 4 / 2 / 5; }
 
 & .app-status {
