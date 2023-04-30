@@ -1,4 +1,4 @@
-# Deprecation Notice
+# ⚠️⚠️⚠️ Deprecation Notice ⚠️⚠️⚠️
 
 This project is deprecated in favor of [import-map-overrides](https://github.com/single-spa/import-map-overrides)
 
