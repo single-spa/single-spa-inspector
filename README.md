@@ -1,7 +1,3 @@
-# ⚠️⚠️⚠️ Deprecation Notice ⚠️⚠️⚠️
-
-This project is deprecated in favor of [import-map-overrides](https://github.com/single-spa/import-map-overrides)
-
 # single-spa Devtools Inspector
 
 A Firefox/Chrome devtools extension to provide utilities for helping with [single-spa](https://single-spa.js.org) applications.
