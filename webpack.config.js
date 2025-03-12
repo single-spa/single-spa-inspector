@@ -8,6 +8,9 @@ module.exports = {
     backgroundScript: "./src/background_script.js",
     panel: "./src/panel.js",
     panelApp: "./src/panel-app.js",
+    installDevtools: "./src/install-devtools.js",
+    forceMountUnmount: "./src/inspected-window-helpers/force-mount-unmount.js",
+    overlayHelpers: "./src/inspected-window-helpers/overlay-helpers.js",
   },
   plugins: [
     new CopyWebpackPlugin({

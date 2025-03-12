@@ -1,6 +1,6 @@
 {
   "name": "single-spa-inspector",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A devtools extension for single-spa applications",
   "scripts": {
     "prebuild": "npm run webpack-build && npm run lint",
@@ -43,7 +43,7 @@
     "prettier": "2.4.1",
     "pretty-quick": "^3.1.1",
     "style-loader": "^3.3.0",
-    "web-ext": "^6.4.0",
+    "web-ext": "^8.4.0",
     "webpack": "^5.56.1",
     "webpack-cli": "^4.8.0"
   },
@@ -53,7 +53,7 @@
     "kremling": "^2.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "webextension-polyfill": "^0.8.0"
+    "webextension-polyfill": "^0.12.0"
   },
   "browserslist": [
     "last 5 chrome version",

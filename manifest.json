@@ -1,21 +1,25 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "single-spa Inspector",
   "short_name": "sspa Inspect",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": "Anthony Frehner",
   "homepage_url": "https://github.com/single-spa/single-spa-inspector",
   "description": "A devtools panel for single-spa applications",
-  "browser_action": {
+  "action": {
     "default_icon": "./logo-white-bgblue.png",
     "default_title": "single-spa Inspector"
   },
+  "permissions": ["scripting"],
   "icons": {
     "48": "./logo-white-bgblue.png",
     "96": "./logo-white-bgblue.png"
   },
   "devtools_page": "./build/main.html",
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  },
+  "host_permissions": ["http://*/*", "https://*/*"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -24,6 +28,16 @@
     }
   ],
   "background": {
-    "scripts": ["./build/backgroundScript.js"]
-  }
+    "service_worker": "./build/backgroundScript.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "build/installDevtools.js",
+        "build/forceMountUnmount.js",
+        "build/overlayHelpers.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
