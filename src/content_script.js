@@ -13,7 +13,7 @@ window.addEventListener("single-spa:routing-event", () => {
 
 function addStringifyableScript(scriptReference) {
   var script = document.createElement("script");
-  script.src = chrome.runtime.getURL(scriptReference);
+  script.src = browser.runtime.getURL(scriptReference);
   (document.head || document.documentElement).appendChild(script);
   script.onload = function() {
     script.remove();
