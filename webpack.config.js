@@ -3,6 +3,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: "development",
+  devtool: 'cheap-module-source-map',
   entry: {
     contentScript: "./src/content_script.js",
     backgroundScript: "./src/background_script.js",

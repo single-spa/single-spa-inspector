@@ -28,7 +28,13 @@
     }
   ],
   "background": {
-    "service_worker": "./build/backgroundScript.js"
+    "service_worker": "./build/backgroundScript.js",
+    "scripts": ["./build/backgroundScript.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "single.spa.inspector.dev@gmail.com"
+    }
   },
   "web_accessible_resources": [
     {
