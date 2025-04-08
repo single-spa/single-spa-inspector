@@ -10,7 +10,7 @@
     "default_icon": "./logo-white-bgblue.png",
     "default_title": "single-spa Inspector"
   },
-  "permissions": ["scripting"],
+  "permissions": [],
   "icons": {
     "48": "./logo-white-bgblue.png",
     "96": "./logo-white-bgblue.png"
