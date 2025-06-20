@@ -1,11 +1,8 @@
-import { installDevtools } from "./install-devtools";
-import { setupMountAndUnmount } from "./inspected-window-helpers/force-mount-unmount.js";
-import { setupOverlayHelpers } from "./inspected-window-helpers/overlay-helpers.js";
 import browser from "webextension-polyfill";
 
-addStringifyableScript(installDevtools);
-addStringifyableScript(setupMountAndUnmount);
-addStringifyableScript(setupOverlayHelpers);
+addStringifyableScript("./build/installDevtools.js");
+addStringifyableScript("./build/forceMountUnmount.js");
+addStringifyableScript("./build/overlayHelpers.js");
 
 window.addEventListener("single-spa:routing-event", () => {
   browser.runtime.sendMessage({
@@ -16,7 +13,9 @@ window.addEventListener("single-spa:routing-event", () => {
 
 function addStringifyableScript(scriptReference) {
   var script = document.createElement("script");
-  script.textContent = `(${scriptReference.toString()})()`;
+  script.src = browser.runtime.getURL(scriptReference);
   (document.head || document.documentElement).appendChild(script);
-  script.remove();
+  script.onload = function() {
+    script.remove();
+  };
 }
